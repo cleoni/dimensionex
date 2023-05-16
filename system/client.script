@@ -1,0 +1,407 @@
+<script type="text/javascript">
+// Dimensione X Client Code
+// For DimensioneX version 7.1.0+
+// https://www.dimensionex.net
+//
+// Config
+//
+var navUrl = "$NavigatorUrl$"; 
+var floater2; // For popups
+
+// Vars
+var cmd = "";		// Command to be executed
+var theform = null;
+var args = new Array(); // Arguments
+var argcount = 0;	// How many are they
+var cmdecho = "";	// Tooltip text
+var lastCtrl = "";	// Last control cliecked and accepted
+var objType = ""; // TypeRef of the clicked object
+var objId =""; // Id of the clicked object
+var objName = ""; // Name of the clicked object
+var objNames = new Array(); // Names of all clicked objects
+var objFullId = ""; // FullId of the clicked objects
+var found = 0;	// Flag
+var musicWin = 0; // Set to 1 when music window is spawn
+var mapx = 0; // Remember positionon map for map management
+var mapy = 0;
+var map = null; // Remember map
+var doubleCmds = "pick";
+
+// Button commands definitions
+var cmds = new Array(); // Command codes
+var cmdDescs = new Array(); // Command Descriptions
+var cmdNoargs = new Array(); // Number of arguments 
+var cmdSrcargs = new Array(); // Source of arguments 
+
+$ButtonDefs$
+
+var floater;
+
+function locate_on_map(a,b) {
+	if (ctrls.frames['mapiframe']) {
+		if (a!=0 || b!=0) {
+			mapx = a;
+			mapy = b;
+			//alert("locate:"+a+"/"+b+" map:"+map);
+			ctrls.frames['mapiframe'].document.getElementById("dot").style.left = mapx;
+			ctrls.frames['mapiframe'].document.getElementById("dot").style.top = mapy;
+		}
+		if (map != null) {
+			//alert("new map: "+ctrls.frames['mapiframe'].document.getElementById("map").src);
+			ctrls.frames['mapiframe'].document.getElementById("map").src = map;
+		} 
+	}
+}
+
+function startup() {
+	// Startup code for the client
+	setTimeout("refreshMessages();",$MsgRefreshRate$);
+}
+
+function refreshMessages() {
+	this.msgs.location.href = navUrl + "?view=msgs";
+	if ($MsgRefreshRate$>0) setTimeout("refreshMessages();",$MsgRefreshRate$);
+}
+
+function playSound(what,loop) {
+	//This launches a new window and then
+	//focuses it if window.focus() is supported.
+	floater = window.open(navUrl+"?view=sound&loop="+loop+"&what="+what,'vMusic','width=155,height=95,resizable=1,status=0,scrollbars=0');
+	self.focus();
+	musicWin = 1;
+}
+
+function popupWin(url,attrs) {
+	//var attrs = "resizable=1,status=0,scrollbars=1,directories=0,toolbar=1,menubar=0,left=0,top=0";
+	//if (width >= 0 && height >= 0) attrs = attrs + ",width="+width+",height="+height;
+	if (floater2 && floater2.close) {floater2.close()} 
+	floater2 = window.open(url,'wPopup',attrs);
+	if (floater2.focus) {floater2.focus()} 
+	return false;
+}
+
+function silence() {
+	if (musicWin > 0) {
+		floater = window.open("about:blank",'vMusic','width=155,height=95,resizable=1,status=0,scrollbars=0');
+		setTimeout('floater.focus();floater.close();',250);
+		musicWin=0;
+	}
+}
+
+function instantiateArgs(str) {
+// Instantiates arguments' placeholders with existing arguments
+	var c = 0;
+	var i = 0;
+	var j = 0;
+	var newstr = str;
+	while (c < argcount) {
+		j = newstr.indexOf("...");
+		if (j>=0) newstr = newstr.substr(i,j-i) + objNames[c] + newstr.substr(j+3);
+		c++;
+	}
+	return newstr;
+}
+
+function clientExecuteCmd(what) {
+	//alert(">>" + what + "<<");
+	if (what == "refresh!all") {
+	/// ***
+		this.scene.location.href = navUrl + "?view=scene";
+		this.ctrls.location.href = navUrl + "?view=ctrls";
+	} else if (what == "refresh!ctrls") {
+		this.ctrls.location.href = navUrl + "?view=ctrls";
+	} else if (what == "refresh!scene") {
+		this.scene.location.href = navUrl + "?view=scene";
+	} else if (what == "focusmsg") {
+		if (this.ctrls.document && this.ctrls.document.forms[0] && this.ctrls.document.forms[0].txtBox) {
+			this.ctrls.document.forms[0].txtBox.focus();
+		}
+	} else if (what == "newmsg") {
+		if (this.ctrls.document.forms[0].txtBox) {
+			this.ctrls.document.forms[0].txtBox.value = "";
+		}	
+	} else if (what.substr(0,5) == "play!") {
+		playSound(what.substr(5),"0");
+	} else if (what.substr(0,12) == "playLooping!") {
+		playSound(what.substr(12),"1");
+	} else if (what.substr(0,6) == "timed!") {
+		var comma = what.indexOf(",");
+		setTimeout("clientExecute('" + what.substr(comma+1) + "');",what.substr(6,comma-6));
+	} else if (what.substr(0,6) == "popup!") {
+		var comma = what.indexOf(",");
+		popupWin(what.substr(6,comma-6),what.substr(comma+1));
+	} else if (what.substr(0,3) == "map") {
+		var comma = what.indexOf(",");
+		var a = what.substr(4,comma-4);
+		var b = what.substr(comma+1)
+		var comma = b.indexOf(",");
+		if (comma>0) {
+			map = b.substr(comma+1);
+			b = b.substr(0,comma);
+		}
+		locate_on_map(a,b);
+	} else if (what == "silence") {
+		silence();
+	} else {
+		alert("Ignored client command: >>" + what +  "<<");
+	}
+}
+
+function clientExecute(commands) {
+	var pos = commands.indexOf(";");
+	if (pos > 0) {
+		var splitted = commands.substr(0,pos);
+		clientExecuteCmd(splitted);
+		clientExecute(commands.substr(pos+1));
+	} else {
+		clientExecuteCmd(commands);
+	}
+}
+
+function doClear(keepStatus) {
+	lastCtrl = "";
+	argcount=0;
+	cmd="";
+	theform.arg0.value="";
+	theform.arg1.value="";
+	theform.cmd.value="";
+	theform = null;
+	objType=""; objFullId="";
+	if (keepStatus != 1)
+		window.defaultStatus=msg175;
+}
+
+function sendCmd() {
+	window.defaultStatus = cmdecho;
+	if (theform == null) {
+		theform = this.ctrls.document.forms[0];
+	}
+	theform.cmd.value=cmd;
+	if (argcount>0) {
+		theform.arg0.value=args[0];
+		if (argcount>1) {
+			theform.arg1.value=args[1];
+		}
+	}
+	theform.submit();
+	doClear(1);
+}
+
+function identifyObject(objStr) {
+	var i = objStr.indexOf("!");
+	var j = objStr.indexOf("|",i+1);
+	if (i < 0) {
+		return false;
+	} else {
+		objType = objStr.substr(0,i);
+		if (j > i) {
+			objId = objStr.substr(i+1,j-i-1);
+			objName = objStr.substr(j+1);
+		} else {
+			objId = objStr.substr(i+1);
+			objName = objStr.substr(i+1);
+		}
+		//alert("identificati: " + objType + " - " + objId + " - " + objName);
+		objFullId = objType + "!" + objId;
+		return true;
+	}
+}
+
+function identifyCommand(c) {
+// Tries to identify the specified command and returns -1 if unsuccessful, correct command index if successful
+
+	var i = 0;
+	var found = 0;
+	while (i<cmdsCount && found==0) {
+		if (c == cmds[i]) { // Identified!
+			return i;
+		}
+		i++;
+	}
+	return -1;
+}
+
+function command(c,framename) {
+	var type = typeof c;
+	if (framename != null) { // If frame name specified
+		theform = this.frames[framename].document.forms[0];
+		//alert('form was set by name'+framename);
+	}
+	if (type == 'object') {
+		theform = c.form;
+		c = c.name;
+		//alert('form was set by object');
+	} 
+	//
+	// Manage special commands
+	//
+	if (c == "clear") {
+		//
+		// CLEAR
+		//
+		doClear(); return;
+	} else if (c == "say") {
+		//
+		// SAY
+		//
+		cmd = c;
+		if (lastCtrl == c) {
+			// SEND CMD
+			args[1] = "*";
+			argcount = 2;
+			cmdecho = msg028;
+			sendCmd();
+			/// ***
+			if (this.ctrls.document.forms[0].txtBox) {
+				this.ctrls.document.forms[0].txtBox.value = "";
+				this.ctrls.document.forms[0].txtBox.focus();
+			}
+			return;
+		} 
+	} else if (c == "rotr") {
+		// ROTATE RIGHT
+		cmd = "rotate";
+		args[0] = "r"; argcount=1;
+		cmdecho=msg174;
+		sendCmd(); return;
+	} else if (c == "rotl") {
+		// ROTATE LEFT
+		cmd = "rotate";
+		args[0] = "l"; argcount=1;
+		cmdecho=msg173;
+		sendCmd(); return;
+	} else if (c == "rev") {
+		// REVERSE
+		cmd = "rotate";
+		args[0] = "b"; argcount=1;
+		cmdecho=cmd025;
+		sendCmd(); return;
+	} else if (c == "logout") {
+		// LOGOUT
+		if (!confirm(msg176)) {
+			doClear(); return;
+		}
+	} else if (c == "quicklogout") {
+		// QUICK LOGOUT
+		c = "logout"
+		cmd = "logout";
+	} else if (doubleCmds.indexOf(c)>=0) { // Double click command found!
+		if (lastCtrl == c) {
+			// SEND CMD
+			cmdecho = "*";
+			sendCmd(); return;
+		}
+	} else if (c == "hide") { // HIDE
+		if (lastCtrl == c) {
+			// SEND CMD
+			cmdecho = msg027;
+			sendCmd(); return;
+		}
+	} else if (c == "look") { // LOOK
+		cmd = c;
+		if (lastCtrl == c) {
+			// SEND CMD
+			argcount = 0;
+			cmdecho = msg026;
+			sendCmd(); return;
+		}
+	}	
+	// 
+	// Manage generic command
+	//
+
+	// Try generic command identification
+	i = identifyCommand(c);
+	if (i >= 0) { // Identified!
+		// alert("generic command: " + c);
+		cmd = c;
+		lastCtrl = c;
+		
+		if (cmdSrcargs[i].substr(0,1) == 'T') { // T or TO models - auto add 1st parameter from textbox
+			if (theform == null) {
+				theform = this.ctrls.document.forms[0];
+			}
+			if (theform.txtBox) // If we do have a text box
+				args[0] = theform.txtBox.value;
+			else
+				args[0] = "";
+			objNames[0] = args[0];
+			argcount=1;
+		} 
+		
+		cmdecho = instantiateArgs(cmdDescs[i]);
+		if (argcount >= cmdNoargs[i]) // If we now have all parameters
+			sendCmd(); 
+		else
+			window.defaultStatus = cmdecho; // Display and wait for parameters
+		return;
+	} 
+	
+	//
+	// Manage object (related to previous command)
+	//
+	// Try now to identify related OBJECT - A command should have been previously identified 
+	// or it should be implicit at this point
+
+	if (!identifyObject(c)) {
+		alert("Internal error! Unidentified object: " + c);
+		return;
+	}
+
+	// If here then object has been identified
+	
+	//
+	// Fix - ups
+	//
+	if (cmd == "") { // No command? - Set default command
+		if (objType == "w") {
+			cmd = "go";
+		} else {
+			cmd = "click";
+		}
+	} else if ((cmd == "use") && (objType == "w")) { // Convert use link to GO link
+		cmd = "go";
+	} 
+	
+	//
+	// Actually manage object related to generic commands
+	//
+	if (cmd == "") {
+		alert("Internal error! You clicked: " + c + " but no command was selected");
+	} else {
+		// cmd holds the command
+		args[argcount] = objFullId;
+		objNames[argcount] = objName;
+		argcount++;
+
+		// Try to identify generic command and then update status line with the clicked OBJECT
+
+		i = identifyCommand(cmd);
+		if (i >= 0) { // Identified!
+			cmdecho = instantiateArgs(cmdDescs[i]);
+			if (argcount >= cmdNoargs[i]) {
+				// We now have all parameters
+				sendCmd(); return;
+			}
+		} else {
+			alert("Internal error! Command is " + cmd + " but the current BUTTONS PANEL lacks information on this one");
+		}
+	}
+	window.defaultStatus = cmdecho;
+}
+
+function toggle_vis(id,visible) {
+	var x = this.scene.document.getElementById(id);
+	if (x && x.style) {
+		if (visible) {
+			x.style.visibility='visible';
+		} else {
+			x.style.visibility='hidden';
+		}
+	}
+	return;
+}
+
+
+startup();
+</script>

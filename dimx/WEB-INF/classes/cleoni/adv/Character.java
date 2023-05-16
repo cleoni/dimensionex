@@ -264,7 +264,7 @@ public class Character extends AdvObject {
         return false;
     }
     
-    public String look(AdvObject o, DictSorted input, Skin skin) throws DimxException  {
+    public String look(AdvObject o, DictSorted input, Skin skin, boolean explicit) throws DimxException  {
         StringBuffer out = new StringBuffer();
         if (o != null && world != null) {
             
@@ -276,7 +276,10 @@ public class Character extends AdvObject {
                 }
                 Messages msgs = world.msgs;
                 
-                boolean res = world.fireEvent("onLook",o,id,"",input,true, false);
+                String target="";
+                if (explicit) target="explicit";
+                
+                boolean res = world.fireEvent("onLook",o,id,target,input,true, false);
                 
                 if (res) { // If look successful...
 

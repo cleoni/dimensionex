@@ -838,6 +838,7 @@ public class World extends DimxObject {
         Ctrl myBtn = new Ctrl(myPanel, Const.CTRL_BUTTON, "use", msgs.cmd[3], msgs.cmd[3] + " ...", null, "O", null);
         myBtn = new Ctrl(myPanel, Const.CTRL_BUTTON, "use2", msgs.cmd[4], "Use ... With ...", null, "OO", null);
         myBtn = new Ctrl(myPanel, Const.CTRL_BUTTON, "look", msgs.cmd[5], msgs.cmd[5] + " ... ", null, "O", null);
+        myBtn = new Ctrl(myPanel, Const.CTRL_GHOST, "click", "Click", "Click" + " ... ", null, "O", null);
 
         myBtn = new Ctrl(myPanel, "-");
 

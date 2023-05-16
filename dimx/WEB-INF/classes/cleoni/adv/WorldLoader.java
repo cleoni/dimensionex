@@ -21,7 +21,7 @@ public class WorldLoader extends DimxParser {
     private static final String[] setLinkAttrs = {"NAME","DESCRIPTION","IMAGE","ICON","ATTRLIST","SHOW"};
     private static final String[] setCharacterParams = {"NAME","DESCRIPTION","IMAGE","ICON","ATTRLIST","POSITION","ACCEPTS","SHOW"};
     private static final String[] setItemParams = {"NAME","DESCRIPTION","IMAGE","INNER","ZOOMIMAGE","ICON","ATTRLIST","POSITION","CAPACITY","VOLUME","SHOW","PANEL","TYPE"};
-    private static final String[] setPanelParams = {"BUTTON", "TEXTBOX", "CR", "LABEL","DROPDOWN","MAP","DELETE"};
+    private static final String[] setPanelParams = {"BUTTON", "TEXTBOX", "CR", "CMD","LABEL","DROPDOWN","MAP","DELETE"};
     private static final String[] setGuiTags = {"PANEL","SCREEN","SCENE","LOGOSRC","SKINS","MSGLISTSIZE","COMPASS","VIEW","PAGE","EASYNAV","SHOW","MAP","HOOKS"};
     
     private Messages msgs;
@@ -186,6 +186,59 @@ public class WorldLoader extends DimxParser {
         
         return b;
     }
+    
+    private Ctrl parseCMD(Panel panel) throws DimxException {
+        // Parses a CMD line body
+        Token t = null;
+        Ctrl b = null;
+        String name = null;
+        String description = null;
+        String event = null;
+        String eventModel = null;
+        Image im = null;
+        String icon = null;
+        
+        parseToken("CMD");
+        String id = nextToken().strVal(); // Eat id
+        
+        t = lookupToken();
+        if (t.strVal().equals(",")) { // Complete definition
+            eat();
+            name = nextToken().strVal();
+            parseToken(",");
+            description = nextToken().strVal();
+            parseToken(",");
+            event = nextToken().strVal();
+            
+            if (Utils.isIn(event,setPanelParams) || event.equalsIgnoreCase("PANEL") || event.equalsIgnoreCase("END_GUI")) {
+                throw new DimxException("Event identifier expected");
+            }
+            
+            t = lookupToken();
+            if (t.strVal().equals(",")) { // Event model specified
+                eat();
+                eventModel = nextToken().strVal();
+                t = lookupToken();
+            }
+            
+            world.logger.debug("-" + t.strVal() + "-");
+            
+            int type = Const.CTRL_GHOST;
+            
+            b = new Ctrl(panel,type,id,name,description,event,eventModel,im,icon);
+        } else { // id Only - copy from Default panel
+            Panel defp = (Panel) world.getPanel("default");
+            
+            b = (Ctrl) ((Panel) world.getPanel("default")).buttons.getIC(id);
+            if (b == null) {
+                throw new DimxException("Default panel misses command: >" + id + "<");
+            }
+            readToCR();
+            panel.buttons.put(b.id,b);
+        }
+        
+        return b;
+    }    
 
     /** Parses a DROPDOWN line body
      * @param panel
@@ -761,6 +814,8 @@ public class WorldLoader extends DimxParser {
             
             if (s.equalsIgnoreCase("BUTTON")) {
                 parseButton(panel);
+            } else if (s.equalsIgnoreCase("CMD")) {
+                parseCMD(panel);
             } else if (s.equalsIgnoreCase("TEXTBOX")){
                 eat_extended();
                 String txtid = "txtBox";

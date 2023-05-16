@@ -248,8 +248,9 @@ public class Player extends cleoni.adv.Character {
         return false;
     }
     
-    public boolean look(AdvObject o, DictSorted input) throws DimxException  {
-        String out=super.look(o,input, skin);
+    // 
+    public boolean look(AdvObject o, DictSorted input, boolean explicit) throws DimxException  {
+        String out=super.look(o,input, skin, explicit);
         if (out != null && o != null) {
             if (o.showmode.intVal() != Const.OFFSCREEN) {
                 out="-- " + o.getName() + " --\n"+out;
@@ -266,7 +267,7 @@ public class Player extends cleoni.adv.Character {
         if (ret) { // If opening succeeded...
             if (o != null && o.isAccessibleFrom(this) && !o.isLink() && o.showmode.intVal() != Const.OFFSCREEN) {
                 // If object still exists, is accessible, not a link and onscreen...
-                String out = super.look(o, null, skin); // look at it
+                String out = super.look(o, null, skin, false); // look at it
                 if (out != null) display(out);
                 focus = o;
             }

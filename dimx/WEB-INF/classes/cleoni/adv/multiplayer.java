@@ -12,6 +12,10 @@ import java.util.*;
  *
  * Recent History:
  *
+ * 7.1.0
+ *      click hidden command added to standard panel
+ *      onLook now uses also $TARGET="explicit" in case explicit look via button.
+ *      Discarded hooks for language parser classes
  * 7.0.8 - 2023-05-12
  *      World ticks won't happen during ajax calls anymore
  * 7.0.7 - 2023-05-10
@@ -673,7 +677,7 @@ import java.util.*;
  */
 public class multiplayer extends javax.servlet.http.HttpServlet {
     // Shown version
-    public static String myVersion = "7.0.8";
+    public static String myVersion = "7.1.0";
     public String navigatorUrl = "/dimx/servlet/cleoni.adv.multiplayer";
     private DictSorted worlds = null;
     private DictSorted clusters = null;
@@ -1167,17 +1171,7 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
                     return;
                 }
                 
-                if (view.equals("banner")) {
-                    //
-                    // SKINNED BANNER VIEW
-                    //
-                    out.println("<HTML><HEAD><BASE TARGET=\"_blank\"></HEAD><BODY BGCOLOR=\"" + world.getSkin("default").bodyBgColor + "\"><CENTER>");
-                    if (bannersImg.size() > 0) {
-                        out.println("<A HREF=\"" + bannersHref.elementAt(count % bannersHref.size()) + "\" TARGET=\"_blank\"><IMG SRC=\"" + bannersImg.elementAt(count % bannersImg.size()) + "\" BORDER=0 HSPACE=0 VSPACE=0></A>");
-                    }
-                    out.println("</CENTER></BODY></HTML>");
-                    return;
-                } if (view.equals("")) {
+                if (view.equals("")) {
                     // need just the client
                     utils.setSession("screenmode", utils.getForm("width",charset) + "x" + utils.getForm("height",charset));
                     utils.setSession("locked", utils.getForm("locked",charset));
@@ -1550,21 +1544,7 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
                             if (thisPlayer != null && thisPlayer.container != null && status.equals("CONNECTED")) {
                                 // CONNECTED commands
                                 
-                                // PRE-CHECK cmd command and possibly intepret via Custom Text-Commands Processor
-                                if (cmd.equals("say") && world.custCmdProc instanceof ISayProcessor){
-                                        world.logger.debug("Custom SAY processor invoked...");
-
-                                        sayProcessorResult = ((ISayProcessor)world.custCmdProc).processSay(this, world, cmd, arg1, arg2, thisPlayer);
-
-                                        if (sayProcessorResult != null) { // Spoken text was a command
-                                            cmd = (String) sayProcessorResult.elementAt(0);
-                                            arg1 = (String) sayProcessorResult.elementAt(1);
-                                            arg2 = (String) sayProcessorResult.elementAt(2);
-                                            world.logger.debug("ISayProcessor returning cmd: '"+ cmd +"', arg1: '"+ arg1 +"', arg2: '"+ arg2+"'");
-                                        }
-                                    }
-                                
-                                if (cmd.equals("look")) {
+                                if (cmd.equals("look")||cmd.equals("click")) {
                                     AdvObject cont = thisPlayer.container;
                                     if (arg1.equals("")) { // default - look room
                                         if (cont != null) {
@@ -1572,7 +1552,7 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
                                         }
                                     }
                                     thisPlayer.focus = world.getObject(arg1);
-                                    if (!thisPlayer.look(thisPlayer.focus,(DictSorted) kv.get("input"))) {
+                                    if (!thisPlayer.look(thisPlayer.focus,(DictSorted) kv.get("input"),(cmd.equals("look")))) {
                                         // Object was moved
                                         // if not in null then focus = room
                                         if (cont != null)

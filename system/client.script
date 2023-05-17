@@ -384,7 +384,8 @@ function command(c,framename) {
 				sendCmd(); return;
 			}
 		} else {
-			alert("Internal error! Command is " + cmd + " but the current BUTTONS PANEL lacks information on this one");
+			sendCmd(); return;
+			//alert("Internal error! Command is " + cmd + " but the current BUTTONS PANEL lacks information on this one");
 		}
 	}
 	window.defaultStatus = cmdecho;

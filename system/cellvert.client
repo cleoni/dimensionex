@@ -1,0 +1,16 @@
+<!DOCTYPE html>	
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>$GameName$</title>
+$ClientScript$
+</head>
+
+<frameset rows="*,35%,15%">
+    <frame name="scene" src="$NavigatorUrl$?view=scene" scrolling="auto">
+    <frame name="ctrls" src="$NavigatorUrl$?view=ctrls" scrolling="no">
+    <frame name="msgs" src="$NavigatorUrl$?view=msgs" scrolling="auto">
+</frameset>
+
+</html>

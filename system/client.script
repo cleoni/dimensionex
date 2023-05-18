@@ -22,6 +22,7 @@ var objNames = new Array(); // Names of all clicked objects
 var objFullId = ""; // FullId of the clicked objects
 var found = 0;	// Flag
 var musicWin = 0; // Set to 1 when music window is spawn
+var audio;	// For music play
 var mapx = 0; // Remember positionon map for map management
 var mapy = 0;
 var map = null; // Remember map
@@ -64,11 +65,37 @@ function refreshMessages() {
 }
 
 function playSound(what,loop) {
+	if (musicWin>0) {
+		audio.pause();
+		audio=null;
+	}
+	audio=new Audio(what);
+	audio.play();
+	musicWin = 1;
+}
+function silence() {
+	if (musicWin > 0) {
+		audio.pause();
+		audio=null;
+		musicWin=0;
+	}
+}
+
+// Obsolete
+function playSound2(what,loop) {
 	//This launches a new window and then
 	//focuses it if window.focus() is supported.
 	floater = window.open(navUrl+"?view=sound&loop="+loop+"&what="+what,'vMusic','width=155,height=95,resizable=1,status=0,scrollbars=0');
 	self.focus();
 	musicWin = 1;
+}
+// Obsolete
+function silence2() {
+	if (musicWin > 0) {
+		floater = window.open("about:blank",'vMusic','width=155,height=95,resizable=1,status=0,scrollbars=0');
+		setTimeout('floater.focus();floater.close();',250);
+		musicWin=0;
+	}
 }
 
 function popupWin(url,attrs) {
@@ -80,13 +107,6 @@ function popupWin(url,attrs) {
 	return false;
 }
 
-function silence() {
-	if (musicWin > 0) {
-		floater = window.open("about:blank",'vMusic','width=155,height=95,resizable=1,status=0,scrollbars=0');
-		setTimeout('floater.focus();floater.close();',250);
-		musicWin=0;
-	}
-}
 
 function instantiateArgs(str) {
 // Instantiates arguments' placeholders with existing arguments

@@ -12,7 +12,16 @@ import java.util.*;
  *
  * Recent History:
  *
- * 7.1.0
+ * 7.1.2 - 2023-05-18
+ *      improved music play system (non more popup window)
+ *      fix in absolutized urls (double slash removed)
+ *      fixed buttons rendering (auto removal of {} in style specs)
+ *      controls are now resizable on mobile devices
+ * 7.1.1 - 2023-05-17
+ *      discarded: checkuser,createuser,checkpass,getavatar,binduser
+ *      discarded: banner view
+ *      added res: 400x800 (patched) for cellphons
+ * 7.1.0 - 2023-05-16
  *      click hidden command added to standard panel
  *      onLook now uses also $TARGET="explicit" in case explicit look via button.
  *      Discarded hooks for language parser classes
@@ -677,7 +686,7 @@ import java.util.*;
  */
 public class multiplayer extends javax.servlet.http.HttpServlet {
     // Shown version
-    public static String myVersion = "7.1.0";
+    public static String myVersion = "7.1.2";
     public String navigatorUrl = "/dimx/servlet/cleoni.adv.multiplayer";
     private DictSorted worlds = null;
     private DictSorted clusters = null;
@@ -700,8 +709,7 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
     private  String serverType = "public";
     private  String serverAdminPasswd = "";
     private  int msgRefreshRate = 5;
-    private  Dict bannersHref = new Dict();
-    private  Dict bannersImg = new Dict();
+
     
     // Static Configuration
     private  String systemDir = null; // InitParameter "base"
@@ -955,20 +963,6 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
                 clusterslist = makeClustersList(tmp);
             }
 
-            boolean finito = false;
-            int bannercount = 1;
-            
-            while (!finito || bannercount >= 10) {
-                tmp = p.getProperty("banner"+bannercount+"Img","");
-                if (tmp.equals("")) {
-                    finito = true;
-                } else {
-                    bannersImg.put(Utils.cStr(bannercount),tmp);
-                    bannersHref.put(Utils.cStr(bannercount),p.getProperty("banner"+bannercount+"Href",""));
-                    bannercount++;
-                }
-            }
-            
             Logger.echo("Server Settings loaded.");
         } catch (Exception e) {
             throw new DimxException("Cannot load server settings: " + e.getMessage() + "\nEither the servlet settings are wrong, or the configuration file was deleted, moved or renamed");
@@ -1920,21 +1914,6 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
                     ViewMap.outputHtml(world,out,thisPlayer,skin, null);
                 } else if (view.equals("direct")) {
                     ViewDirect.outputHtml(world, out,thisPlayer,null,null);
-                } else if (view.equals("checkuser")) {
-                    world.logger.log("checkuser from "+request.getRemoteAddr());
-                    sendCheckUser(world,out,utils.getForm("nickname",charset));
-                } else if (view.equals("getavatar")) {
-                    world.logger.log("getavatar from "+request.getRemoteAddr());
-                    sendGetAvatar(world,out,utils.getForm("nickname",charset));
-                } else if (view.equals("checkpass")) {
-                    world.logger.log("checkpass from "+request.getRemoteAddr());
-                    sendCheckPass(world,out,utils.getForm("nickname",charset),utils.getForm("password",charset));
-                } else if (view.equals("createuser")) {
-                    world.logger.log("createuser from "+request.getRemoteAddr());
-                    sendCreateUser(world,out,utils.getForm("nickname",charset),utils.getForm("password",charset),utils.getForm("fbid",charset));
-                } else if (view.equals("binduser")) {
-                    world.logger.log("binduser from "+request.getRemoteAddr());
-                    sendBindUser(world,out,utils.getForm("nickname",charset),utils.getForm("password",charset),utils.getForm("fbid",charset));
                 } else if (view.equals("")) {
                     String clientFile=null;
                     if (thisPlayer!=null) clientFile = thisPlayer.getClient().clientFile;
@@ -2625,7 +2604,7 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
                 // Layer 2 - Display ROOM
                 
                 sb.append("<DIV class=\"scene_image\" style=\"left: 1; top: 21; position: absolute; z-index: 2\">");
-                View.htmlImage(im, sb, client, currContainer.getName());
+                View.htmlImage(im, sb, client, currContainer.getName(),null,null,null);
                 sb.append("</DIV>\n");
                 
                 // Layer 3 - Display EFFECT
@@ -2634,7 +2613,7 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
                     Image effect = t.imageVal();
                     
                     sb.append("<DIV class=\"scene_effect\" style=\"left: 1; top: 21; position: absolute; z-index: 3\">");
-                    View.htmlImage(effect, sb, client, currContainer.getName());
+                    View.htmlImage(effect, sb, client, currContainer.getName(),null,null,null);
                     sb.append("</DIV>\n");
                 }
                 
@@ -2781,8 +2760,11 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
             
             // Icons panel
             sb.append("<TD CLASS=text>\n");
-            sb.append("<IMG SRC=\""+ skin.picSpacer);
-            sb.append("\" HEIGHT=1 WIDTH=180 ALT=\"\"><BR>");
+            //sb.append("<hr style=\"width:100%;color:#fff\" />");
+            sb.append("<img src=\""+ skin.picSpacer);
+            // *navpad
+            int cwidth=Utils.cInt(thisPlayer.getClient().factorx*160);
+            sb.append("\" height=1 width="+cwidth+" ><br/>");
             
             Room r = thisPlayer.getRoom();
             if (r != null) {
@@ -2804,7 +2786,7 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
             //
             if (!world.logoSrc.equals("")) {
                 sb.append("<DIV style=\"position: absolute; top: 1; z-index: 1; width: 100%; text-align:center;\">\n");
-                View.htmlImage(new Image(world.logoSrc,0,0), sb, world.defaultClient, "Logo");
+                View.htmlImage(new Image(world.logoSrc,0,0), sb, world.defaultClient, "Logo","logo-splash",null,"width:100%;");
                 sb.append("</DIV>\n");
             }
             sb.append("<div class=\"text gameover\" style=\"position: absolute; top: 21; z-index: 2; width: 100%; text-align:center;\">\n");
@@ -2820,7 +2802,7 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
             //
             if (!world.logoSrc.equals("")) {
                 sb.append("<DIV style=\"position: absolute; top: 1; z-index: 1; width: 100%; text-align:center;\">\n");
-                View.htmlImage(new Image(world.logoSrc,0,0), sb, world.defaultClient, "Logo");
+                View.htmlImage(new Image(world.logoSrc,0,0), sb, world.defaultClient, "Logo", "logo-splash",null,"width:100%;");
                 sb.append("</DIV>\n");
             }
             
@@ -3112,10 +3094,13 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
             Utils utils,
             String errs) throws java.io.IOException, DimxException {
         out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
-        out.println("<HTML><HEAD>");
+        out.println("<HTML><head>");
         out.println(htmlCharset(world));
         if (skin.stylesheet != null) out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + skin.stylesheet + "\" />\n");
-        out.print("<TITLE>" + world.getName() + " - Ctrls</TITLE>\n" + skin.toHtml() + "\n\n</HEAD>\n<BODY ");
+        out.print("<title>" + world.getName() + " - Ctrls</title>\n" + skin.toHtml());
+        out.print("<meta name=\"HandheldFriendly\" content=\"True\" />\n" +
+"<meta name=\"viewport\" content=\"width=device-width, user-scalable=1\" />");
+        out.print("</head>\n<BODY ");
         out.print("BGCOLOR=\"" + skin.bodyBgColor + "\" ");
         if (!skin.bodyBackground.equals("")) {
             out.print("BACKGROUND=\"" + skin.bodyBackground + "\" ");
@@ -3217,82 +3202,7 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
         
     }
 
-/*
- * Checks for user existence
- *
- */
 
-private void sendCheckUser(World world, PrintWriter out, String nickname) {
-    if (world.profileExists(nickname)) {
-        out.println("Taken");
-    } else {
-        out.println("Available");
-    }
-}
-
-/*
- * Checks for user existence
- *
- */
-
-private void sendGetAvatar(World world, PrintWriter out, String nickname) {
-    String x = world.getProfileAvatar(nickname);
-    if (x==null || x.equals("")) {
-        out.println("500 Unavailable");
-    } else {
-        out.println(x);
-    }
-}
-
-/*
- * Checks for user existence
- *
- */
-
-private void sendCheckPass(World world, PrintWriter out, String nickname, String password) {
-    if (world.profileCredentials(nickname,password)) {
-        out.println("OK");
-    } else {
-        out.println("Wrong");
-    }
-}
-/*
- * Creates new, empty user
- *
- */
-private void sendCreateUser(World world, PrintWriter out, String nickname, String password, String fbid) {
-    if (nickname==null || password==null || nickname.equals("") || password.equals("")) {
-        out.println("500 Impossible - nickname and password must be specified");
-        return;
-    }
-    String problem = world.createProfile(nickname,password, fbid);
-    if (problem == null || problem.equals("")) {
-        out.println("100 Done");
-    } else {
-        out.println("500 Impossible - " + problem);
-    }
-}
-
-/*
- * Binds existing user to FB
- *
- */
-private void sendBindUser(World world, PrintWriter out, String nickname, String password, String fbid) {
-    if (nickname==null || password==null || fbid == null || nickname.equals("") || password.equals("") || fbid.equals("")) {
-        out.println("500 Impossible - nickname, password and FacebookId must be specified");
-        return;
-    }
-    if (world.profileCredentials(nickname,password)) {
-        String problem = world.bindProfile(nickname,fbid);
-        if (problem == null || problem.equals("")) {
-            out.println("100 Done");
-        } else {
-            out.println("500 Impossible - " + problem);
-        }
-    } else {
-        out.println("500 Wrong password");
-    }
-}
 
 
 /*

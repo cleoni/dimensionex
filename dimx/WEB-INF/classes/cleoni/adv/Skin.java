@@ -50,7 +50,7 @@ public class Skin {
  */
 public Skin(String skinsFolder) {
 	super();
-	skinFolder = skinsFolder + id + "/";
+	skinFolder = skinsFolder + id ;
 	picPlayer = new Image(Utils.absolutizeUrl("uomo.gif",skinFolder),64,100);
 	absolutizeUrls();		
 }
@@ -98,7 +98,7 @@ public Skin(String anId, String aName, String skinsFolder,
 	if (aImagesFolder != null && !aImagesFolder.equals("")) {
 		skinFolder = aImagesFolder;
 	} else {
-		skinFolder = skinsFolder + id + "/";
+		skinFolder = skinsFolder + id ;
 	}
 	if (aPicPlayer != null) {
 		picPlayer = new Image(Utils.absolutizeUrl(aPicPlayer,skinFolder),64,100);
@@ -137,7 +137,7 @@ public Skin(String anId, String aName, String skinsFolder,
 	if (aPanelBgColor != null) panelBgColor = aPanelBgColor;
 	if (aPanelBackground != null) panelBackground = aPanelBackground;
 	if (aPanelStyle != null) panelStyle = aPanelStyle;
-	if (aButtonStyle != null) buttonStyle = aButtonStyle;
+	if (aButtonStyle != null) buttonStyle = Utils.unbracket(aButtonStyle);
 	if (aTitleStyle != null) titleStyle = aTitleStyle;
 	if (aList1BgColor != null) list1BgColor = aList1BgColor;
 	if (aList2BgColor != null) list2BgColor = aList2BgColor;

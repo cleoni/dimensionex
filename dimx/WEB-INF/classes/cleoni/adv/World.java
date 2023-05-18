@@ -966,7 +966,7 @@ public class World extends DimxObject {
         myBtn = new Ctrl(myPanel, "-");
         myBtn = new Ctrl(myPanel, Const.CTRL_LABEL, "lbl3", msgs.msg[12] + ":", null, null, null, null);
         myBtn = new Ctrl(myPanel, Const.CTRL_CHECKBOX, "music", "ON", "Right(\"$1\",1)=1", "sounds", "cookie", null);
-        myBtn = new Ctrl(myPanel, Const.CTRL_LABEL, "lbl3a", "<FONT SIZE=\"1\">[<A TARGET=\"_blank\" HREF=\"" + msgs.msg[14] + "\">" + msgs.msg[13] + "</A>]</FONT>", null, null, null, null);
+        //myBtn = new Ctrl(myPanel, Const.CTRL_LABEL, "lbl3a", "<FONT SIZE=\"1\">[<A TARGET=\"_blank\" HREF=\"" + msgs.msg[14] + "\">" + msgs.msg[13] + "</A>]</FONT>", null, null, null, null);
         myBtn = new Ctrl(myPanel, "-");
 
         myBtn = new Ctrl(myPanel, Const.CTRL_LABEL, "lbl4", /* msgs.msg[#] */ "Screen size" + ":", null, null, null, null);
@@ -985,6 +985,8 @@ public class World extends DimxObject {
         myBtn = new Ctrl(myPanel, Const.CTRL_BUTTON, "help", msgs.cmd[26], urlHelp, null, null, null);
         myBtn = new Ctrl(myPanel, Const.CTRL_SUBMIT, "login", msgs.cmd[1], msgs.cmd[1], null, null, null);
         myBtn = new Ctrl(myPanel, Const.CTRL_LABEL, "lbl5", "<SCRIPT TYPE=\"text/javascript\">this.document.forms[0].cmd.value='login';</SCRIPT>", null, null, null, null);
+        myBtn = new Ctrl(myPanel, Const.CTRL_LABEL, "lbl7", "<br/><br/>", null, null, null, null);
+        myBtn = new Ctrl(myPanel, Const.CTRL_BUTTON, "refr", "Refresh", "javascript:location.reload()", null, null, null);
         myBtn = new Ctrl(myPanel, Const.CTRL_LABEL, "lbl6", "<HR><P ALIGN=\"CENTER\"><FONT SIZE=\"1\">" + world.msgs.msg[4] + " <B><a href=\"https://www.dimensionex.net/\" TARGET=\"_blank\">Dimensione X</A></B> v. " + this.server.myVersion + "</FONT></P>", null, null, null, null);
 
         panels.put(myPanel.id, myPanel);

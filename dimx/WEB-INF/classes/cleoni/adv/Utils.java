@@ -33,6 +33,9 @@ public class Utils {
             // Nullo o Gi� assoluto
             return aUrl;
         }
+        if (baseHref.substring(baseHref.length()-1)!="/") { // If final slash missing, then add it
+            baseHref=baseHref+"/";
+        }
         return baseHref + aUrl;
     }
     /**
@@ -1346,6 +1349,19 @@ public void redirect(String aUrl) {
       res.put(strs[i], strs[i]);
     }
     return res;
+  }
+  
+  // removes optional external brackets {} from style specs (transitional)
+  public static String unbracket(String astr) {
+        String styleNB = ""; // Style with NO brackets
+        styleNB = astr;
+        if (styleNB.substring(0,1).equals("{")) {
+            styleNB=styleNB.substring(1);
+        }
+        if (styleNB.substring(styleNB.length()-1).equals("}")) {
+            styleNB=styleNB.substring(0,styleNB.length()-1);
+        }
+        return styleNB;
   }
 
 

@@ -71,7 +71,7 @@ public class Const {
         public static final int LOOK_3RDPERSON = 1;
         
         // Screen sizes
-        public static final String[] screenSizes = {"1024x768","1280x800","800x600","640x480","480x272"};
+        public static final String[] screenSizes = {"1024x768","1280x800","800x600","640x480","480x272","400x800"};
         
         // Print destinations
         public static final int TO_CONSOLE = 0;

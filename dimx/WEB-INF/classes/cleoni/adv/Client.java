@@ -123,6 +123,8 @@ public Client(World aWorld, int aMaxSize, boolean audio, boolean music, int scre
         musicSupport = music;
         browser = aBrowser;
         if (world != null) {
+            //Patch trial for cellphones
+            if (screenwidth==400) screenwidth=550;
             factorx = Utils.cDbl(screenwidth)/world.screenwidth;
             factory = Utils.cDbl(screenheight)/world.screenheight;
         }

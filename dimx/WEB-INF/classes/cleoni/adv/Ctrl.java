@@ -74,13 +74,24 @@ public int getNoArgs() {
     StringBuffer sb = new StringBuffer("");
     
     String style = "";
+    /*
+    String styleNB = ""; // Style with NO brackets
+    styleNB = skin.listStyle;
+    if (styleNB.substring(0,1).equals("{")) {
+        styleNB=styleNB.substring(1);
+    }
+    if (styleNB.substring(styleNB.length()-1).equals("}")) {
+        styleNB=styleNB.substring(0,styleNB.length()-1);
+    }   
+    */
     if (skin.listStyle != null && !skin.listStyle.equals("")) {
         style = "STYLE=\"" + skin.listStyle + "\"";
         style = Utils.stringReplace(style, "{", "{background:" + skin.list2BgColor+";",false);
+
     }
       String buttonStyleTag = "";
         if (skin.buttonStyle != null) {
-            buttonStyleTag = " STYLE=\"" + skin.buttonStyle + "\"";
+            buttonStyleTag = " style=\"" + skin.buttonStyle + "\"";
             String str = "";
             if (Utils.instrCount(buttonStyleTag,"$ICON",true)>0) {
                 if (this.icon != null) {
@@ -88,19 +99,31 @@ public int getNoArgs() {
                 }
                 buttonStyleTag = Utils.stringReplace(buttonStyleTag, "$ICON", str,Const.IGNORE_CASE);
             }
-            str = "url(" + skin.skinFolder + "pan" + this.id + ".gif)";
+            str = "url(" + Utils.absolutizeUrl("pan" + this.id + ".gif", skin.skinFolder) + ")";
             buttonStyleTag = Utils.stringReplace(buttonStyleTag, "$SKINICON", str,Const.IGNORE_CASE);
         }
         
         if (this.id.equalsIgnoreCase("help")) {
-            sb.append("<INPUT NAME=\"help\" TYPE=BUTTON");
+            sb.append("<input name=\"help\" type=\"button\"");
             sb.append(buttonStyleTag);
             sb.append(" onClick=\"javascript:window.open('" + this.description +
             "', 'help', 'scrollbars=yes,resizable=yes,width=640,height=480');\" VALUE=\" "+this.name+" \"> \n");
         } else if (this.type == Const.CTRL_BUTTON) {
-            sb.append("<INPUT TYPE=\"BUTTON\" NAME=\""+ this.id + "\" VALUE=\"" + this.name + "\"");
+            
+            sb.append("<input type=\"button\" name=\""+ this.id + "\" value=\"" + this.name + "\"");
             sb.append(buttonStyleTag);
-            sb.append(" onClick=\"parent.command(this);\"> \n");
+            if (this.description!= null && !this.description.equals("") && this.description.length()>11 && this.description.substring(0,11).equals("javascript:")) {
+                sb.append(" onClick=\""+this.description+"\"> \n");
+            } else {
+                sb.append(" onClick=\"parent.command(this);\"> \n");
+            }
+                    
+            /*
+            sb.append("<a id=\""+ this.id + "\" href=\"javascript:parent.command(this);\"");
+            sb.append(buttonStyleTag);
+            sb.append(">"+this.name);
+            sb.append("</a>");
+            */
         } else if (this.type == Const.CTRL_SUBMIT) {
             sb.append("<INPUT TYPE=\"SUBMIT\" NAME=\""+ this.id + "\" VALUE=\"" + this.name + "\"");
             sb.append(buttonStyleTag + "> \n");

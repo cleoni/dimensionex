@@ -31,7 +31,7 @@ public class View {
         }
     }
     
-    public static void htmlImage(Image im, StringBuffer sb, Client client, String alt) {
+    public static void htmlImage(Image im, StringBuffer sb, Client client, String alt, String aclass, String aid, String astyle) {
             double factorx = client.factorx;
                 String src = im.getSrc();
                 int p = Utils.instrRev(src, ".", false /* check case */);
@@ -59,7 +59,17 @@ public class View {
                 } else {
                     sb.append("<img border=\"0\" ");
                     htmlWidthHeight(im,sb,factorx);
-                    sb.append("src=\""+ im.getSrc() + "\" alt=\"" + alt + "\" title=\"" + alt + "\">");
+                    sb.append("src=\""+ im.getSrc() + "\" alt=\"" + alt + "\" title=\"" + alt + "\"");
+                    if (aid!=null) {
+                        sb.append(" id=\""+aid+"\"");
+                    }
+                    if (aclass!=null) {
+                        sb.append(" class=\""+aclass+"\"");
+                    }
+                    if (astyle!=null) {
+                        sb.append(" style=\""+astyle+"\"");
+                    }
+                    sb.append(">");
                 }
     }
     public static void outputHtml(World world, PrintWriter out, Skin skin)  throws DimxException {

@@ -12,6 +12,12 @@ import java.util.*;
  *
  * Recent History:
  *
+ * 7.1.4 - 2023-05-24
+ *      bug fixed: using image names beginning with x caused a glitch in loading data
+ * 7.1.3 - 2023-05-23
+ *      auto selection of best resolution if top frame has bestRes() function
+ *      some kind of responsive behaviour with auto selection of bast client for browser orientation
+ *      dropped soundpad view (client now uses javascript audio play function)
  * 7.1.2 - 2023-05-18
  *      improved music play system (non more popup window)
  *      fix in absolutized urls (double slash removed)
@@ -686,7 +692,7 @@ import java.util.*;
  */
 public class multiplayer extends javax.servlet.http.HttpServlet {
     // Shown version
-    public static String myVersion = "7.1.2";
+    public static String myVersion = "7.1.4";
     public String navigatorUrl = "/dimx/servlet/cleoni.adv.multiplayer";
     private DictSorted worlds = null;
     private DictSorted clusters = null;
@@ -1894,8 +1900,6 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
                     
                 } else if (view.equals("ctrls")) {
                     sendCtrls(world, out, thisPlayer, skin,commands,status, utils, msgError.toString());
-                } else if (view.equals("sound")) {
-                    sendSoundpad(world,out,utils.getForm("what",charset),utils.getForm("loop"));
                 } else if (view.equals("scene")) {
                     sendView(world, out, thisPlayer, skin, commands, status, thisRoomDescription, itemsV, peopleV, sound, console, rightcolumn, msgError.toString());
                 } else if (view.equals("snapshot")) {
@@ -3099,7 +3103,16 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
         if (skin.stylesheet != null) out.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + skin.stylesheet + "\" />\n");
         out.print("<title>" + world.getName() + " - Ctrls</title>\n" + skin.toHtml());
         out.print("<meta name=\"HandheldFriendly\" content=\"True\" />\n" +
-"<meta name=\"viewport\" content=\"width=device-width, user-scalable=1\" />");
+        "<meta name=\"viewport\" content=\"width=device-width, user-scalable=1\" />\n");
+        out.print("<script>\n"
+                + "function inIframe () {\n" 
+                + "    try {\n"
+                + "        return window.self !== window.top;\n"
+                + "    } catch (e) {\n"
+                + "        return true;\n"
+                + "    }\n"
+                + "}"
+                + "</script>\n");
         out.print("</head>\n<BODY ");
         out.print("BGCOLOR=\"" + skin.bodyBgColor + "\" ");
         if (!skin.bodyBackground.equals("")) {
@@ -3205,32 +3218,6 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
 
 
 
-/*
- * Output SOUND PAD
- *
- */
-    private void sendSoundpad(World world,PrintWriter out /* */,
-            String what, String loop) throws java.io.IOException {
-        
-        if (loop.equals("1")) loop = "true"; else loop = "false";
-        
-        out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional\" \"http://www.w3.org/TR/html4/loose.dtd\">");
-        out.println("<html><head>");
-        out.println(htmlCharset(world));
-        out.println("<title>"+world.msgs.msg[12]+"</title>");
-        out.print("</head><body BGCOLOR=black TEXT=white LINK=Silver VLINK=Silver><BASEFONT SIZE=1>");
-        String ext=Utils.getFileExtension(what).toLowerCase();
-        if (what.endsWith("mid")) {
-            //out.print("<embed src=\"" +what + "\" hidden=\"false\" width=\"135\" height=\"60\" autostart=\"true\" loop=\""+loop+"\">");
-            out.print("<audio id=\"sndplayer\" autoplay loop><source src=\""+what+"\" type=\"audio/midi\"></audio>");
-        } else {
-             //out.print("<embed src=\"" +what + "\" hidden=\"false\" width=\"135\" height=\"60\" autostart=\"true\" loop=\""+loop+"\">");
-             out.print("<audio id=\"sndplayer\" autoplay ><source src=\""+what+"\" type=\"audio/"+ext+"\"></audio>");
-        }
-        out.print("<br/><CENTER><FONT SIZE=-1 COLOR=\"Silver\" FACE=\"MS Sans Serif, Arial, Helvetica\">" + world.msgs.msg[177] + "</FONT></CENTER>");
-        out.println("</body>\n</html>\n");
-    }
-    
 /*
  * Output BOARD PRINCIPALE
  *

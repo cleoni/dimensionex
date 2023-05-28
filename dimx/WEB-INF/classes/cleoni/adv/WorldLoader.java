@@ -552,9 +552,14 @@ public class WorldLoader extends DimxParser {
             if (v.size() == 2) {
                 width = Utils.cInt(v.elementAt(0));
                 height = Utils.cInt(v.elementAt(1));
-                eat();
-                t = lookupToken();
-                s = t.strVal();
+                if (width>0 && height>0) { // dimensions spec
+                    eat();
+                    t = lookupToken();
+                    s = t.strVal();
+                } else { // Nota dimensions spec - Reset
+                    width = 0;
+                    height = 0;
+                }
             }
         }
         

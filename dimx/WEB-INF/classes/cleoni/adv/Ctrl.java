@@ -167,12 +167,17 @@ public int getNoArgs() {
                 if (locked != null && !(locked.equals("0")||locked.equals("false")||locked.equals(""))) {
                     // Resolution is locked!
                     sb.append(scmode+"<input type=\"hidden\" name=\"" + this.id + "\" value=\""+scmode+"\" />\n");
+                sb.append("<script>"
+                + "if (inIframe() && (typeof window.parent.bestRes === \"function\")) {\n"
+                + " var bestres=window.parent.bestRes();\n"  
+                + "}\n"
+                + "</script>");                        
                     skip_it = true;
                 } 
             }
 
             if (!skip_it) {
-                sb.append("<select name=\"" + this.id + "\" " + style + ">\n");
+                sb.append("<select id=\"" + this.id + "\" name=\"" + this.id + "\" " + style + ">\n");
                 if (this.eventModel != null) {
                     if (this.eventModel.equals("cookie")) {
                         name = (String) utils.getSession(event);
@@ -224,6 +229,19 @@ public int getNoArgs() {
                     }
                 }
                 sb.append("</select>");
+                if (this.id.equals("screensize")) {
+                    sb.append("<script>"
+                + "if (inIframe() && (typeof window.parent.bestRes === \"function\")) {\n"
+                + " var bestres=window.parent.bestRes();\n"
+                + " var ddloption =  document.getElementById('screensize').options;\n" 
+                + " for(var i = 0; i < ddloption.length; i++) {\n" 
+                + "        if (ddloption[i].value== bestres) {\n" 
+                + "            ddloption[i].selected = true;\n" 
+                + "        }" 
+                + " }    \n" 
+                + "}\n"
+                + "</script>");
+                }
             }
         } else if (this.type == Const.CTRL_PASSWORD) {
             String value = ""; String size = "";

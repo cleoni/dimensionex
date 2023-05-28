@@ -797,6 +797,10 @@ public class DimxParser {
     public Token lookupToken() throws DimxException {
         return getToken(PRESERVE,setCrTabSpace,tokenTerminators);
     }
+
+    public Token lookupWord() throws DimxException {
+        return getToken(PRESERVE,setTabSpace,setCrTabSpace);
+    }
     /**
      * Looks up for the next token, CR is not passed over.
      * @throws cleoni.adv.DimxException 

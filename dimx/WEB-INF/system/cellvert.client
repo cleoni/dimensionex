@@ -5,6 +5,73 @@
 <title>$GameName$</title>
 <meta name="theme-color" content="#000000"/>
 $ClientScript$
+<script>
+function bestRes() {
+	var w=screen.width;
+	var h=screen.height;
+	if (w>h) { // Landscape-oriented device
+		ensureStandard();
+		if (w>=1280) {
+			return "1280x800";
+		}	
+		if (w>=1024) {
+			return "400x800";
+		}
+		if (w>=800) {
+			return "800x600";
+		}	
+		if (w>=640) {
+			return "640x480";
+		}	
+		return "480x272";		
+	} else { // Portrait-oriented device
+		if (w<700) {
+			ensureCell();
+			return "400x800";
+		} else {
+			return "640x480";
+		}
+	}
+}
+function getQueryParams(url) {
+    const paramArr = url.slice(url.indexOf('?') + 1).split('&');
+    const params = {};
+    paramArr.map(param => {
+        const [key, val] = param.split('=');
+        params[key] = decodeURIComponent(val);
+    })
+    return params;
+}
+function ensureCell() {
+	var arrqs=getQueryParams(window.location.href);
+	if (arrqs.hasOwnProperty('client')) {
+		if (arrqs.client=="cellvert.client") {
+			// Good,mobile
+		} else {
+			window.location.replace(window.location.href+"&client=cellvert.client");
+		}
+	} else {
+		window.location.replace(window.location.href+"&client=cellvert.client");
+	}
+}
+function ensureStandard() {
+	var arrqs=getQueryParams(window.location.href);
+	if (arrqs.hasOwnProperty('client')) {
+		if (arrqs.client=="standard.client") {
+			// Good,std
+		} else {
+			var str=window.location.href;
+			str=str.replace(/&client=[^&]+/,'');
+			if (arrqs.hasOwnProperty('locked')) {
+				str=str.replace(/&locked=[^&]+/,'');
+			}
+			window.location.replace(str);
+		}
+	} else {
+		// Good,std
+	}
+}
+</script>
 </head>
 
 <frameset rows="*,35%,15%">

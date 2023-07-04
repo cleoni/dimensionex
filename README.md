@@ -1,5 +1,5 @@
 # dimensionex
-## DimensioneX Massive Mutiplayer Game Engine (MMORPG)
+## DimensioneX Massive Multiplayer Game Engine (MMORPG)
 <img src="https://www.dimensionex.net/wp-content/uploads/2023/05/underworld-mobile-150x300.jpg" align="right" style="float:right;">
 DimensioneX is an easy, free multiplayer (MMORPG) game engine. Designed for developing and running multiplayer adventure games, it is also a valuable resource for beginners to learn computer programming.
 

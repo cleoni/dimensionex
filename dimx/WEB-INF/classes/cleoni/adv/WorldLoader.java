@@ -1042,7 +1042,6 @@ public class WorldLoader extends DimxParser {
             String compass = "0";
             String site = "";
             String muting = "1";
-            String custCmdProc = "";
             String attrlist = "";
             
             parseToken("WORLD");
@@ -1117,8 +1116,6 @@ public class WorldLoader extends DimxParser {
                             throw new DimxException("Allowed encoding formats are: UTF-8 and ANSI");
                         throw new DimxException("Wrong Encoding");
                     }
-                } else if (s.equalsIgnoreCase("CUSTCMDPROC")) {
-                    custCmdProc = readToCR().trim();
                 } else if (s.equalsIgnoreCase("ATTRLIST")) {
                     attrlist = readToCR();
                 }
@@ -1140,13 +1137,7 @@ public class WorldLoader extends DimxParser {
             world.muting = Utils.cInt(muting);
             world.site = site;
             world.encoding = this.encoding;
-            if(custCmdProc.length()>0){
-                try{
-                    world.custCmdProc = Class.forName(custCmdProc).newInstance();
-                }catch(Exception e){
-                    throw new DimxException("Specified custCmdProc '"+ custCmdProc +"' could not be instantiated.");
-                }
-            }            
+        
             varsSet(attrlist);
             
             parseWorldSections();

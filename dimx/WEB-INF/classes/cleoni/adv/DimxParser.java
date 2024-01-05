@@ -54,7 +54,7 @@ public class DimxParser {
     "MainType","PanelHtml","UCase","gameInfo","getObject",
     "NewArray","NewLink","getPlayerProperties","HttpFetch","Copy",
     "getObjectsSubtype","getPlayer","getLinksFrom","Log","Asc",
-    "Urlencode"};
+    "Urlencode","Format"};
     
     // Expected parameters for each function
     // Function code needs to be hooked into evalFunction() method.
@@ -68,7 +68,7 @@ public class DimxParser {
     1,1,1,1,1,
     -1,8,1,1,1,
     2,1,1,1,1,
-    1};
+    1,2};
     
     public DimxParser(World aWorld, Varspace aVarspace, int aStackLevel, int aStartLine) {
         super();
@@ -498,7 +498,11 @@ public class DimxParser {
                 result = new Token(rndGen.nextFloat());
             } else if (s.equals("rndint")) {
                 Token z = (Token) aparams.elementAt(0);
-                result = new Token(1+rndGen.nextInt(Utils.cInt(z.numVal())));
+                try {
+                    result = new Token(1+rndGen.nextInt(Utils.cInt(z.numVal())));
+                } catch (Exception ex) {
+                    result = new Token(0);
+                }
             } else if (s.equals("int")) {
                 Token z = (Token) aparams.elementAt(0);
                 result = new Token(Utils.cInt(z.numVal()));
@@ -605,6 +609,8 @@ public class DimxParser {
                 result = funAsc(aparams);
             } else if (s.equals("urlencode")) {
                 result = funUrlencode(aparams);
+            } else if (s.equals("format")) {
+                result = funFormat(aparams);
             } else {
                 throw new DimxException("evalFunction: DimX engine misses function-handling code for: "+s);
             }
@@ -1052,6 +1058,14 @@ public class DimxParser {
         }
     }
     
+    private Token funFormat(Dict params) {
+        Token p0 = (Token) params.elementAt(0);
+        Token p1 = (Token) params.elementAt(1);
+        
+        String s = String.format(p1.strVal(), p0.intVal());
+        return new Token(s);
+    }    
+    
     private Token funGetObject(Dict params) {
         Token p0 = (Token) params.elementAt(0);
         DimxObject o = world.getObjectExt(p0);
@@ -1327,7 +1341,17 @@ public class DimxParser {
             throw new DimxException("Must specify an http(s):// URL");
         } 
         
-        return new Token(Utils.fetch(s1, "UTF-8"));
+        String cont;
+        try {
+            cont = Utils.fetch(s1, "UTF-8");
+       } catch (Exception ex) {
+            cont = ex.toString();
+            if (cont.indexOf("FileNotFound")>0) {
+                cont = "404 Not Found exception";
+            }
+        }
+        
+        return new Token(cont);
     }
     private Token funInstr(Dict params) throws DimxException {
         if (params.size() != 3 && params.size() != 2) {

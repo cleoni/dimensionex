@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- Use this WEB.XML file for running DimensioneX under Tomcat 5.0 and 5.5 -->
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+  <display-name>DimensioneX</display-name>
+
+ <servlet>
+    <servlet-name>multiplayer</servlet-name>
+    <servlet-class>cleoni.adv.multiplayer</servlet-class>
+  </servlet>
+ <servlet>
+    <servlet-name>maintenance</servlet-name>
+    <servlet-class>cleoni.adv.Maint</servlet-class>
+  </servlet>
+ <servlet-mapping>
+        <servlet-name>multiplayer</servlet-name>
+        <url-pattern>/servlet/multiplayer</url-pattern>
+  </servlet-mapping>
+ <servlet-mapping>
+        <servlet-name>maintenance</servlet-name>
+        <url-pattern>/servlet/maintenance</url-pattern>
+  </servlet-mapping>
+
+</web-app>

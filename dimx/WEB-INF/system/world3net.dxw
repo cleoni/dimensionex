@@ -1,0 +1,1057 @@
+WORLD 
+	NAME		The Beach 
+	VERSION		2.30
+	'Tested on DimensoneX game engine 7.1.2
+
+	AUTHOR		Cris 
+	'AUTHOREMAIL	cris@dimensionex.net 
+	SITE		https://www.dimensionex.net/thebeach/multiplayer.htm
+	HELP		https://www.dimensionex.net/en/quick_start.htm 
+	ENCODING	ANSI
+	INTERPHONE	1
+	SAVEGAME_PERSISTENCE	2
+	' The following for local mode
+	IMAGESFOLDER_LOCAL    https://localhost:8080/dimx/pics/
+	' The following for network (light) mode
+	IMAGESFOLDER_PUBLIC    https://www.dimensionex.net/pics/
+	COUNTERHTML	<BR><A HREF="https://www.shinystat.it/cgi-bin/shinystatv.cgi?USER=thebeachen" target="_top"><IMG SRC="https://www.shinystat.it/cgi-bin/shinystat.cgi?USER=thebeachen" WIDTH=1 HEIGHT=1 BORDER="0"></A>
+
+GUI
+	SCENE SIZE	350x235
+	SCREEN SIZE	640x480
+	LOGOSRC		thebeachfront.jpg
+	MSGLISTSIZE	3
+	SKINS		aqua.dxs,forest.dxs,default
+END_GUI
+
+
+' **************************************************************
+ROOMS
+' **************************************************************
+
+ROOM parcoLunetta 
+	NAME	The park
+	DESCRIPTION	Spring always shines here.
+	IMAGE 		scnLunetta1.jpg
+
+ROOM spiaggia
+	NAME	The beach
+	DESCRIPTION	A beautiful beach stands before my eyes.
+	IMAGE 		scnBeach3.jpg
+
+ROOM spiaggia2 DEFAULT
+	NAME	The beach and the palm trees
+	DESCRIPTION	This is the classic beach made of white sands and palm trees... an old cliché but quite effective anyway.
+	IMAGE 		scnBeachpalm.jpg
+
+ROOM spiaggia3 
+	NAME	The beach and the boats
+	DESCRIPTION	A beautiful beach stands before my eyes. The boats are somehow bound to the shore.
+	IMAGE 		scnBeachboats.jpg
+
+ROOM spiaggia4
+	NAME	The beach and the rocks
+	DESCRIPTION	The rocks shine in the sun and the weather now it's the right one to have a bath.
+	IMAGE 		scnBeachrock.jpg
+	
+
+ROOM rocca
+	NAME	The cliff
+	DESCRIPTION	From here you can enjoy the beautiful landscape of the beach below.
+	IMAGE 		SHOWAREA -1,-1,0	scnSpiaggiaDasopra.jpg
+	
+ROOM pathgate
+	NAME	The gate
+	DESCRIPTION	The path connects a hill with a cliff on the sea. There's a gate here.
+	IMAGE	N	pathgaten.jpg
+	IMAGE	S	SHOWAREA 100,-1,-1	pathgates.jpg	
+	IMAGE	W	pathgatew.jpg	
+	IMAGE	E	SHOWAREA -1,-1,0	pathgatee.jpg	
+
+ROOM ballhouse 
+	NAME	The stone house
+	DESCRIPTION	There's strange house, carved into the rock. There's nothing inside.
+	IMAGE 	S	SHOWAREA 175,-1,-1	ballhouse.jpg
+
+ROOM mountains
+	NAME	The mountains
+	DESCRIPTION	From here I cannot walk any further.
+	IMAGE 		SHOWAREA 150,-1,-1	mountains.jpg
+
+ROOM bungalow
+	NAME	The bungalow
+	DESCRIPTION	A bungalow here proves that tourism is coming everywhere.
+	IMAGE 	SHOWAREA -1,-1,10	scnBungalow.jpg
+
+ROOM bungalowPatio
+	NAME	The bungalow's back
+	DESCRIPTION	The bungalow's back shows a door that looks unlocked.
+	IMAGE 	S	SHOWAREA 170,-1,-1	scnBungalowPatio.jpg
+
+ROOM bungalowStanza
+	NAME	Inside the bungalow
+	DESCRIPTION	This place looks fine. I'd like to spend some vacation here sooner or later.
+	IMAGE 	S	SHOWAREA -1,-1,0	scnBungalowStanza.jpg
+
+ROOM bar
+	NAME	The beach bar
+	DESCRIPTION	This must be the ideal place for a refreshing drink. Latin music is playing at loud volume.
+	IMAGE 		beachbar.jpg
+
+ROOM cellar
+	NAME	The bar's cellar
+	DESCRIPTION	Hmmm... I have not come here or a drink I guess!
+	IMAGE 		cellar.jpg
+
+ROOM kitchen
+	NAME	Bar interiors
+	DESCRIPTION	The bar's inner room is well equipped for a busy afternoon. There's a door, up there at right side.
+	IMAGE 	SHOWAREA 185,280,55	scnbarinterior.jpg
+
+ROOM beachcliff
+	NAME	The cliff's bottom
+	DESCRIPTION	I can somehow climb up here quickly, even though it's not quite comfortable. The sea is at my shoulders.
+	IMAGE 	E	scnbeachcliff.jpg
+
+ROOM parco
+	NAME	The park
+	DESCRIPTION	This park is wonderful. Look, there's even a pond!
+	IMAGE 	N	SHOWAREA 140,-1,-1	cortic_giardini.jpg
+	
+ROOM parcoCollina
+	NAME	The hill
+	DESCRIPTION	The hill goes up smoothly starting from the lake and up, in between the fields in the distance.
+	IMAGE 	N	cortic_collina.jpg
+	IMAGE 	S	cortic_collinab.jpg
+
+ROOM downhill
+	NAME	Down the hill
+	IMAGE 	N	downhill.jpg
+	IMAGE 	S	SHOWAREA 80,200,-1	chaletin.jpg
+
+ROOM scnCampoarato
+	NAME	The pathway to the hill
+	DESCRIPTION	A tortuous pathway leads up to the hill.
+	IMAGE 	S	scnCampoarato2.jpg
+	IMAGE	N	scnCampoarato.jpg
+
+ROOM scnPassage1
+	NAME	The passage
+	DESCRIPTION	I'm heading north. There's a pathway passing under an arch. At my left I have a gate leading to another path.
+	IMAGE 		SHOWAREA 110,-1,-1	scnPassage1.jpg
+
+ROOM parcoAnatre
+	NAME	The duck's house
+	DESCRIPTION	I wonder how much do they pay for the rent!
+	IMAGE	SHOWAREA 200,-1,-1 lakeside1.jpg
+
+ROOM scnBay
+	NAME	The lake border
+	IMAGE 	W	SHOWAREA -1,200,-1 lakeside2.jpg
+
+ROOM lakeside3
+	NAME	The lake bay
+	IMAGE 	W	lakeside3.jpg
+
+ROOM lakeside4
+	NAME	The lake border
+	IMAGE 	E	lakeside4.jpg
+	IMAGE 	W	lakeside4a.jpg
+
+ROOM chalet
+	NAME	The chalet
+	IMAGE 	S	chaletview.jpg
+	IMAGE 	N	chaletout.jpg
+
+ROOM pianeta
+	NAME		The alien planet
+	DESCRIPTION	I've never seen such a strange place.
+	IMAGE 		scnFloatingorbs.jpg
+
+ROOM pianetaAlieno
+	NAME		Fields of Saturn
+	DESCRIPTION	From the colors and from the local fauna, I suppose I'm not on the Earth here.
+	IMAGE 		SHOWAREA 0,200,-1	scnAlien.jpg
+
+
+END_ROOMS
+
+
+' **************************************************************
+LINKS
+' **************************************************************
+
+
+MLINK	w5	kitchen-beachcliff	E
+	NAME		door
+	ICON		icoDoor.gif
+
+MLINK	w4a	spiaggia3-bar	E
+	NAME	to the bar
+MLINK	w4b	bar-spiaggia3	W
+	NAME	to the beach
+
+LINK	w7	bar-kitchen	E
+
+MLINK	w6	bar-cellar	D
+	NAME	a trapdoor
+	ATTRLIST	open=0,locked=1
+	ICON		trapdoor.gif
+	DESCRIPTION	a square-shaped trap door, connects the bar with the bar's cellar!
+	IMAGE		41x30	td.gif
+	SHOW		ONSCREEN	200,5
+	
+MLINK	w6b	cellar-bar	U	
+
+LINK	w18	pathgate-rocca			N	
+LINK	w31	pathgate-ballhouse		S
+LINK	w32	scnPassage1-mountains		N
+LINK	w30	scnCampoarato-scnPassage1	N	
+LINK	gate1	pathgate-scnPassage1		E	
+	NAME		the gate
+	ATTRLIST	open=0,locked=1
+	ICON		icoDoor.gif
+	DESCRIPTION	It's an old iron gate.
+LINK	w10	parcoCollina-scnCampoarato	N	
+LINK	w11	parcoCollina-downhill		S	
+
+MLINK	w11b	parcoAnatre-parco		U	
+	NAME climb the edge
+MLINK	w11a	parco-parcoAnatre		D	
+	NAME lake's edge
+LINK	w11e	downhill-lakeside4		D
+
+LINK	w11f	chalet-downhill			N
+
+LINK	w12	parcoAnatre-scnBay		N
+MLINK	w3b	bungalow-parcoLunetta		E
+	NAME	to the park
+LINK	w21	bungalow-bungalowStanza		N
+	NAME		the door
+	ATTRLIST	open=0,locked
+	ICON		icoDoor.gif
+	DESCRIPTION	It's firmly locked.
+
+LINK	w23	parco-parcoLunetta		S
+
+MLINK	w3a	parcoLunetta-bungalow		S
+
+LINK	w13	scnBay-lakeside3		N
+LINK	w13a	lakeside3-lakeside4		W
+LINK	w14	pianeta-pianetaAlieno		E
+
+LINK	w16	spiaggia-beachcliff		E
+
+MLINK	w16a	beachcliff-rocca		U
+	NAME	to the cliff
+
+MLINK	w17	rocca-spiaggia			D
+	NAME	to the beach
+LINK	w24	spiaggia2-spiaggia3		N
+LINK	w25	spiaggia-spiaggia2		N
+LINK	w26	spiaggia-spiaggia4		W
+
+MLINK	w19	bungalow-bungalowPatio		N
+	NAME	to rear
+MLINK	w20	bungalowPatio-bungalow		E
+	NAME	to front
+
+LINK	w22	bungalowPatio-bungalowStanza	S
+	NAME	the service door
+	ICON	icoDoor.gif
+	ATTRLIST	open=0,locked 
+
+END_LINKS
+
+
+' **************************************************************
+CHARACTERS
+ATTRLIST Health=10,Skill=1
+' **************************************************************
+
+
+CHARACTER surfer
+	NAME		a surfer
+	DESCRIPTION	Walks up and down, I'd say he's got nothing to do.
+	POSITION	RndSet(setBeach)
+	IMAGE		110x110		chrSurfista.gif
+
+CHARACTER tommy
+	NAME		Tommy
+	DESCRIPTION	He's enjoying some loudpumping music..
+	IMAGE		45x100		punkjamming.gif
+	POSITION	kitchen
+	ACCEPTS		apple
+
+CHARACTER barman
+	NAME		the barman
+	DESCRIPTION	He's standing as he'd expect me to order a drink.
+	POSITION	bar
+	IMAGE		100x118	chrbarmanmir.gif
+	SHOW		ONSCREEN	250,40
+
+CHARACTER bodybuilder
+	NAME		a bodybuilder
+	DESCRIPTION	He's one of those gym enthusiasts... big muscles and the like.
+	ACCEPTS		lattina
+	POSITION	scnPassage1
+	IMAGE		80x130 chrPalestrato.gif
+	SHOW		ONSCREEN	164,35	FOR scnPassage1.jpg
+
+CHARACTER forestguy
+	NAME		forest guy
+	DESCRIPTION	It looks like a resting gorilla.
+	ACCEPTS		cell
+	POSITION	lakeside3
+	IMAGE		125x70 forestguy.gif
+	SHOW		ONSCREEN
+
+CHARACTER squix
+	NAME		Squix the alien
+	DESCRIPTION	Points proudly his spaceship. It looks brand new.
+	POSITION	pianetaAlieno
+	
+CHARACTER mimo	
+	NAME		a mime
+	POSITION	rndSet(setFaraway)
+	DESCRIPTION	He does a hard job... and no paid vacation!
+	IMAGE		120x120	chrMimo.gif
+	
+' Animals
+
+CHARACTER	duck
+	NAME		a duck
+	DESCRIPTION	The duck looks at me... it seems he's holding something in the mouth...
+	ICON		icoDuck.gif
+	POSITION	parcoAnatre
+	ACCEPTS		hamb
+	IMAGE		200x141		duck2.jpg
+	SHOW		ICON	125,120 FOR lakeside1.jpg
+	
+CHARACTER	pollo
+	NAME		a rooster
+	DESCRIPTION	It's one of those pain-in-the-ass roosters capable of awakening you at 4 am!!
+	POSITION	rndSet(setPark)
+	ICON		icoPollo.gif
+	ACCEPTS		bruco
+	IMAGE		70x70	chrPollo.gif
+
+
+END_CHARACTERS
+
+
+' **************************************************************
+ITEMS
+' **************************************************************
+
+
+' ************************
+' Containers - Boxes
+' ************************
+
+ITEM box
+	NAME		a cardboard box
+	DESCRIPTION	It's just an ordinary cardboard box
+	POSITION	rndSet(setFaraway)
+	ICON		icoScatola.gif
+	ATTRLIST	open=0,hideable=0
+	IMAGE		60x48	box.gif
+	SHOW		ONSCREEN
+
+ITEM box2
+	NAME		a cardboard box
+	DESCRIPTION	It's just an ordinary cardboard box
+	POSITION	rndSet(setFaraway)
+	ICON		icoScatola.gif
+	ATTRLIST	open=0,hideable=0
+	IMAGE		60x48	box.gif
+	SHOW		ONSCREEN
+	
+ITEM box3
+	NAME		a cardboard box
+	DESCRIPTION	It's just an ordinary cardboard box
+	POSITION	rndSet(setFaraway)
+	ICON		icoScatola.gif
+	ATTRLIST	open=0,hideable=0
+	IMAGE		60x48	box.gif
+	SHOW		ONSCREEN
+	
+ITEM box4
+	NAME		a cardboard box
+	DESCRIPTION	It's just an ordinary cardboard box
+	POSITION	rndSet(setFaraway)
+	ICON		icoScatola.gif
+	ATTRLIST	open=0,hideable=0
+	IMAGE		60x48	box.gif
+	SHOW		ONSCREEN
+	
+ITEM treasure
+	NAME		treasure chest
+	DESCRIPTION	It is a treasure chest
+	POSITION	beachcliff
+	ATTRLIST	open=0,hidden
+	IMAGE		97x85	chestclosed.gif
+	SHOW		ONSCREEN	160,0
+
+ITEM	trash
+	NAME		a trash can
+	POSITION	parco
+	ATTRLIST	open,hideable=0
+	ICON		icoTrash.gif
+	DESCRIPTION	It's incredible, some people does not use it. It's there for this purpose!
+	IMAGE		100x97 trashcan.gif
+	SHOW 	ONSCREEN	250,0
+	
+' ************************
+' Containers - Bags
+' ************************
+
+ITEM valigia
+	NAME		a bag
+	DESCRIPTION	The colour doesn't set my pants on fire, but still it's a bag.
+	POSITION	rndSet(setTutte)
+	ICON		icoSchoolbag.gif
+	ATTRLIST	open=0,pickable,hideable=0
+	IMAGE		32x32	icoSchoolbag.gif
+	SHOW		ONSCREEN
+
+ITEM valigia2
+	NAME		a bag
+	DESCRIPTION	The colour doesn't set my pants on fire, but still it's a bag.
+	POSITION	rndSet(setTutte)
+	ICON		icoSchoolbag.gif
+	ATTRLIST	open=0,pickable,hideable=0
+	IMAGE		30x30	icoSchoolbag.gif
+	SHOW		ONSCREEN
+	
+ITEM valigia3
+	NAME		a bag
+	DESCRIPTION	There are some initials next to the handle: 'C.L.'.
+	POSITION	rndSet(setTutte)
+	ICON		icoSchoolbag.gif
+	ATTRLIST	open=0,pickable,hideable=0
+	IMAGE		28x28	icoSchoolbag.gif
+	SHOW		ONSCREEN
+	
+ITEM sporta1
+	NAME		a shopping bag
+	DESCRIPTION	It's a shopping bag. The two sides are glued together and I can't see what's inside.
+	POSITION	rndSet(setTutte)
+	ICON		icoSporta.gif
+	ATTRLIST	open=0,pickable,openable=0
+	IMAGE		32x32	icoSporta.gif
+	SHOW		ONSCREEN
+	
+ITEM sporta2
+	NAME		a shopping bag
+	DESCRIPTION	It's a shopping bag. Maybe sponsored by a shop near here or something.
+	POSITION	rndSet(setTutte)
+	ICON		icoSporta.gif
+	ATTRLIST	open=0,pickable
+	IMAGE		32x32	icoSporta.gif
+	SHOW		ONSCREEN
+
+' ************************
+' Keys
+' ************************
+
+ITEM key1
+	' Unlocks the cellar trapdoor
+	NAME		a key
+	DESCRIPTION	Each lock is opened by a key... and each key opens a lock... isn't it?
+	POSITION	duck
+	ICON		icoKey.gif
+	ATTRLIST	pickable
+	IMAGE		67x50	chiavegold.gif
+	SHOW	ICON
+
+ITEM key2
+	' Unlocks the bungalow's door
+	NAME		a key
+	DESCRIPTION	Each lock is opened by a key... and each key opens a lock... isn't it?
+	POSITION	rndSet(setValigie)
+	ICON		icoKey.gif
+	ATTRLIST	pickable
+	IMAGE		67x50	chiavegold.gif
+	SHOW	ICON
+
+ITEM key3
+	' Unlocks the gate
+	NAME		a key
+	DESCRIPTION	Each lock is opened by a key... and each key opens a lock... isn't it?
+	POSITION	trash
+	ICON		icoKey.gif
+	ATTRLIST	pickable
+	IMAGE		67x50	chiavegold.gif
+	SHOW	ICON
+
+ITEM key4
+	NAME		a key
+	DESCRIPTION	Each lock is opened by a key... and each key opens a lock... isn't it?
+	POSITION	rndSet(setValigie)
+	ICON		icoKey.gif
+	ATTRLIST	pickable
+	IMAGE		67x50	chiavegold.gif
+	SHOW	ICON
+
+ITEM key5
+	NAME		a key
+	DESCRIPTION	Each lock is opened by a key... and each key opens a lock... isn't it?
+	POSITION	rndSet(setValigie)
+	ICON		icoKey.gif
+	ATTRLIST	pickable
+	IMAGE		67x50	chiavegold.gif
+	SHOW	ICON
+
+ITEM key6
+	NAME		a key
+	DESCRIPTION	Each lock is opened by a key... and each key opens a lock... isn't it?
+	POSITION	rndSet(setValigie)
+	ICON		icoKey.gif
+	ATTRLIST	pickable
+	IMAGE		67x50	chiavegold.gif
+	SHOW	ICON
+
+ITEM key7
+	NAME		a key
+	DESCRIPTION	Each lock is opened by a key... and each key opens a lock... isn't it?
+	POSITION	rndSet(setValigie)
+	ICON		icoKey.gif
+	ATTRLIST	pickable
+	IMAGE		67x50	chiavegold.gif
+	SHOW	ICON
+
+ITEM key8
+	NAME		a key
+	DESCRIPTION	Each lock is opened by a key... and each key opens a lock... isn't it?
+	POSITION	rndSet(setValigie)
+	ICON		icoKey.gif
+	ATTRLIST	pickable
+	IMAGE		67x50	chiavegold.gif
+	SHOW	ICON
+
+ITEM key9
+	NAME		a key
+	DESCRIPTION	Each lock is opened by a key... and each key opens a lock... isn't it?
+	POSITION	rndSet(setValigie)
+	ICON		icoKey.gif
+	ATTRLIST	pickable
+	IMAGE		67x50	chiavegold.gif
+	SHOW	ICON
+
+
+' ************************
+' Switches and controls
+' ************************
+
+VEHICLE tele1
+	NAME		the teletransporter
+	DESCRIPTION	It looks like one of those things in Star Trek.
+	POSITION	bungalowStanza
+	ICON		icoZap.gif
+        CAPACITY        19
+	IMAGE		40x150	lampadastyle.gif
+        INNER IMAGE     350x235 fadewhite.gif
+	SHOW		ONSCREEN    260,5
+
+VEHICLE tele2
+	NAME		the teletransporter
+	DESCRIPTION	It looks like one of those things in Star Trek
+	POSITION	pianetaAlieno
+	ICON		icoZap.gif
+        CAPACITY        19
+	ATTRLIST	hideable=0
+	IMAGE		40x150	lampadastyle.gif
+        INNER IMAGE     350x235 fadewhite.gif
+	SHOW		ONSCREEN    10,10
+
+ITEM switch1
+	NAME		a switch
+	DESCRIPTION	It is a switch mounted on the wall...
+	POSITION	kitchen
+	ICON		icoInterruttore.gif
+	ATTRLIST	hideable=0
+	IMAGE		77x111	interruttore.gif
+	SHOW		ICON 120,138
+
+ITEM switch2
+	NAME		a switch
+	DESCRIPTION	It is a switch
+	POSITION	tele1
+	ICON		icoInterruttore.gif
+	ATTRLIST	broken=1,hideable=0
+	IMAGE		77x111	interruttore.gif
+	SHOW		ONSCREEN 0,0
+
+ITEM switch3
+	NAME		a switch
+	DESCRIPTION	It is a switch
+	POSITION	tele2
+	ICON		icoInterruttore.gif
+	ATTRLIST	hideable=0
+	IMAGE		77x111	interruttore.gif
+	SHOW		ONSCREEN 0,0
+
+
+' ************************
+' Misc items
+' ************************
+
+ITEM scroll
+	NAME		a scroll
+	DESCRIPTION	The scroll reads: 'The aim of the game is to enter the underground room of the beach bar before that the other players do.'
+	POSITION	parcoLunetta
+	ATTRLIST	hideable=0
+	ICON		icoPergamena.gif
+	IMAGE		100x100	pergamena.gif
+	SHOW		ICON
+
+ITEM scroll2
+	NAME		a scroll
+	DESCRIPTION	The scroll reads: 'Not everything that exists is visible. Try to search...'
+	POSITION	parcoCollina
+	ATTRLIST	hideable=0
+	ICON		icoPergamena.gif
+	IMAGE		100x100	pergamena.gif
+	SHOW		ICON
+
+ITEM scroll3
+	NAME		a scroll
+	DESCRIPTION	The scroll reads: 'The gate can be open by activating the appropriate switch'
+	POSITION	rndSet(setBeach)
+	ATTRLIST	hideable=0
+	ICON		icoPergamena.gif
+	IMAGE		100x100	pergamena.gif
+	SHOW		ICON
+
+ITEM map
+	NAME		a map
+	DESCRIPTION	The map indicates that the treasure chest is hidden at the cliff's bottom!
+	POSITION	cellar
+	ICON		icoPergamena.gif
+	IMAGE		100x100	map.jpg
+	SHOW		ICON
+	
+ITEM hamb
+	NAME		a cheeseburger
+	DESCRIPTION	A nice hamburger... hope it's not made with crazy cow?
+	POSITION	pianetaAlieno
+	ICON		icoHamb.gif
+	ATTRLIST	pickable
+	IMAGE		54x100	hamburger.gif
+	SHOW		ICON
+
+
+ITEM bruco
+	NAME		a worm
+	DESCRIPTION	A worm! How cute!!
+	POSITION	rndSet(setPark)
+	ICON		icoBruco.gif
+	ATTRLIST	pickable
+	IMAGE		84x84	bruco.gif
+	SHOW	ICON
+	
+
+ITEM butterfly
+	NAME		a butterfly
+	DESCRIPTION	A butterfly... what the hell am I supposed to do with this?!
+	POSITION	rndSet(setPark)
+	ICON		icoFarfalla.gif
+	IMAGE		84x49	farfalla.gif
+	SHOW	ICON	-1,100
+
+ITEM frog	
+	NAME		a frog
+	ICON		icoFrog.gif
+	POSITION	rndSet(setPark)
+	DESCRIPTION	The frog is not so happy to see me... jumps averywhere.
+	ATTRLIST	pickable
+	IMAGE		68x60	rana.gif
+	SHOW 		ICON
+
+ITEM apple	
+	NAME		an apple
+	ICON		icoMela.gif
+	POSITION	bodybuilder
+	DESCRIPTION	A nice red apple... maybe it's good and tasty...
+	ATTRLIST	pickable
+	IMAGE		121x88	mela.gif
+        SHOW            ICON
+
+ITEM cell
+	NAME		a cellular phone
+	POSITION	tommy
+	DESCRIPTION	This type looks not so much modern...
+	ATTRLIST	pickable
+	IMAGE		67x50	cellulare.gif
+
+ITEM screwd
+	NAME		a screwdriver
+	POSITION	forestguy
+	DESCRIPTION	Here's something that surely will be quite useful to me...
+	ATTRLIST	pickable
+	IMAGE		113x30	cacciavite.gif
+
+ITEM	lattina
+	NAME		a can
+	ICON		icoCan.gif
+	POSITION	barman
+	DESCRIPTION	Well, if at a given moment I get thirsty...
+	ATTRLIST	pickable
+	IMAGE		56x56	lattina7up.gif
+
+ITEM	soccerball
+	NAME		a soccer ball
+	ICON		icoPallonecalcio.gif
+	POSITION	rndSet(setBeach)
+	DESCRIPTION	Now I just miss the players!
+	ATTRLIST	pickable
+	IMAGE		20x20	pallonecalcio.gif
+	SHOW		ONSCREEN	-1,20
+
+ITEM	forbici
+	NAME		scissors
+	DESCRIPTION	A pair of scissors with sharp blades.
+	ICON		icoScissors.gif
+	POSITION	parcoLunetta
+	ATTRLIST	hidden,pickable
+	IMAGE		100x73	scissors.gif
+	SHOW		ICON
+
+
+' ************************
+' Weapons or similar
+' ************************
+
+ITEM	pepper
+	NAME		a pepper
+	DESCRIPTION	In Italy there's a saying... 'To put pepper at someone's butt...'
+	ICON		icoPeperoncino.gif
+	POSITION	rndSet(setTutte)
+	ATTRLIST	pickable
+	IMAGE		133x100	peperoncino.gif
+	SHOW		ICON
+
+ITEM	gun
+	NAME		a gun
+	DESCRIPTION	A gun to kill other players!
+	ICON		icoPistola.gif
+	POSITION	surfer
+	ATTRLIST	pickable
+	IMAGE		70x48	pistola.gif
+	
+
+END_ITEMS
+
+
+' **************************************************************
+SETS
+' **************************************************************
+
+SET setFaraway	spiaggia4,parcoCollina,parcoAnatre,scnCampoarato,scnBay,lakeside3,bungalowPatio,bungalowStanza,scnPassage1,ballhouse,mountains
+SET setValigie	valigia,valigia2,valigia3,sporta1,sporta2,box,box2,box3,box4,trash
+SET setPark	bungalow,parcoCollina,parcoAnatre,parcoLunetta,scnBay,lakeside3,lakeside4,scnCampoarato,mountains,downhill
+SET setBeach	spiaggia,spiaggia2,spiaggia3,spiaggia4
+SET setTutte	spiaggia,spiaggia2,spiaggia3,spiaggia4,bar,kitchen,parcoCollina,parcoAnatre,parcoLunetta,scnCampoarato,scnBay,lakeside3,rocca,bungalow,bungalowPatio,bungalowStanza,pianeta,pianetaAlieno,scnPassage1,pathgate,ballhouse,mountains
+
+END_SETS
+
+
+
+' **************************************************************
+SCRIPTS
+' **************************************************************
+
+EVENT parco.onReceive
+	PlayBackground "score01.mp3"
+
+EVENT bar.onReceive
+	' Plays the background music only once
+	If $TARGET.barmusic = 1
+		Return
+	Else
+		PlayBackground "reggaeton.mp3"
+		$TARGET.barmusic = 1
+	End_If
+
+EVENT scnPassage1.onReceive
+	' Plays the background music only once
+	If $TARGET.passmusic = 1
+		Return
+	Else
+		PlayBackground "synthwave.mp3"
+		$TARGET.passmusic = 1
+	End_If
+
+
+EVENT pianeta.onReceive
+	PlayBackground "sndJ0074310.mp3"
+
+
+
+EVENT onNew
+	Speak "Welcome to " + name + ", " + $AGENT.name + "!"
+
+
+EVENT surfer.onLook
+	Speak "One day I found a map on this beach...", "...I showed it to the barman...", "...who has lost it immediately!","I think it must be somewhere in the beach bar.","If only I could enter in the cellar... under the trapdoor!"
+
+
+
+EVENT surfer.onHear
+	If $TARGET = "gun please" And gun.container = $OWNER
+		Speak "Yes sir!" 
+		Move gun, $AGENT
+	Else
+		Speak "There's a locked gate up on the hill. You can't escape this place, it seems.", "You know what? I've been told that there's a switch somewhere in the bar which unlocks that gate.", "I never managed to find it, though."
+	End_If
+
+
+EVENT duck.onReceiveItem
+	If $TARGET = hamb
+		Speak "Quack quack!"	
+		$OWNER.description = "He's hurrying up and eats the hamburger... which is a sorta rubber substance"
+		Move key1, parcoAnatre
+	End_If
+
+
+EVENT pollo.onReceiveItem
+	If $TARGET = bruco
+		Speak "Coot Coot!"	
+		$OWNER.description = "He just had a meal and now looks quite satisfied!!"
+		Kill bruco
+	End_If
+
+
+EVENT tommy.onHear
+	Speak "I am hungry... I'd gladly take some fruit!"
+
+
+
+EVENT tommy.onReceiveItem
+	If $TARGET = apple
+		Speak "Thank you! While I'm eating, would you please hold this cellar phone..."
+		Move cell, $AGENT
+	End_If
+
+EVENT forestguy.onReceiveItem
+	If $TARGET = cell
+		Speak "Uh! Uh! Uh! UH! UH! WAH! WAH! Uh!..."
+		Move screwd, $AGENT
+		Display "Hey, he just gave me a screwdriver in return."
+	End_If
+
+
+EVENT forestguy.onHear
+	Display "Hmmm.... it seems he's boring. Perhaps I should give him something to play with."
+
+
+EVENT barman.onHear
+	Speak "What did you say? What should I give you?","What did you say? 
+	Oh shit why don't they turn this damned volume down now!", "Wha-a-at?", "*"
+
+
+
+EVENT barman.onSpeechFinish
+	If lattina.container = $OWNER
+		Speak "Wanna drink huh? Take this!"
+		Move lattina, $AGENT
+	End_If
+
+
+EVENT barman.onLook
+	If $OWNER.empty
+		Speak "Sir, we only have got canned drinks... well... WE DID!","I GOT NOTHIN'TO GIVE YOU! SCRAM!"
+	Else
+		Speak "Hey boy, wanna something to drink?", "Are you thirsty? We've got LOTS of great cocktails!"
+	End_If
+
+
+
+EVENT bodybuilder.onLook
+	Speak "Pant, pant... I'm so thirsty!!", "Puff puff!"
+
+
+
+EVENT bodybuilder.onReceiveItem
+	If $TARGET=lattina
+		Move apple, $AGENT
+		Speak "Thanks! Take this, I need more proteins in my diet. This is of no use to me!"
+	End_If
+
+
+EVENT squix.onLook
+	Speak "Weeexywwx xy wekkyswwyx!!"
+
+
+
+EVENT squix.onHear
+	Speak "Xwzyxw!?!"
+
+
+
+EVENT box.onOpen
+	Display "SSSSSWWWWWWSHHHHHHHHHHHH.... 
+	What...? By raising the cover I think I've activated some sort of teleport!!! 
+	I've seen everything spinning around me and..."
+	Move $AGENT, scnBay
+	$AGENT.Health = $AGENT.Health-1
+
+EVENT treasure.onOpen
+	$OWNER.image = "chestopen.gif"
+	Display "TREASURE FOUND!!!!"
+	If mode=1
+		Goal
+		Speak $WORLD, "The game will be restarted within 30 seconds..."
+	End_If
+
+EVENT treasure.onClose
+	$OWNER.image = "chestclosed.gif"
+
+EVENT treasure.onSearch
+	If (Not($AGENT.foundmap))
+		Return false
+	End_If
+
+EVENT valigia2.onOpen
+	Display "*BANG!!* 
+	Hey, an explosive trick!!"
+	$AGENT.Health = $AGENT.Health-2
+	DropItems $AGENT
+
+
+
+EVENT forbici.onUseWith
+	If $TARGET=sporta1
+		Display "Zzzzzak!"
+		$TARGET.description = "There's a large cut from side to side."
+		$TARGET.openable=1
+	End_If
+
+
+EVENT key1.onUseWith
+	If $TARGET=w6
+		$TARGET.locked=0
+	End_If
+
+
+EVENT key2.onUseWith
+	If $TARGET=w22
+		$TARGET.locked=0
+	End_If
+
+
+EVENT key3.onUseWith
+	If $TARGET=gate1
+		$TARGET.locked=0
+	End_If
+
+EVENT switch2.onUse
+	If $OWNER.broken
+		Display "The main control seems to be broken. It would take a screwdriver to fix it."
+		Return 0
+	Else
+		Display "* ssWWWWzzzzsssss *"
+		Move $AGENT,pianeta
+	End_If
+
+EVENT screwd.onUseWith
+	If $TARGET=switch2 AND $TARGET.broken
+		$TARGET.broken=0
+		Display "Hmmmm.... I seem to have fixed it."
+		PlayBackground $WORLD,"sndMimovie.mp3"
+	End_If
+
+EVENT switch3.onUse
+	Display "* ssWWWWzzzzsssss *"
+	Move $AGENT,kitchen
+
+
+
+EVENT bruco.onUseWith
+	If $TARGET=apple
+		Kill apple
+		Display "The worm ate the apple!!!"
+	End_If
+
+
+EVENT scroll.onLook
+	If $AGENT.flagScroll = 0
+		$AGENT.Skill=$AGENT.Skill+1
+		$AGENT.flagScroll=1
+	End_If
+
+
+EVENT pepper.onUseWith
+	If IsPlayer($TARGET)
+		Display $TARGET, "oowwwWWWW! It hurts!"
+		DropItems $TARGET
+	End_If
+
+
+
+EVENT gun.onUseWith
+	If IsPlayer($TARGET)
+		Display $AGENT, "*BANG*
+		I've shooted " + $TARGET.name
+		Kill $TARGET
+	End_If
+
+
+EVENT gate1.onOpen
+	pathgate.image("E")="pathgateeo.jpg"
+	Speak $WORLD, "The gate is now open!"
+
+
+EVENT gate1.onClose
+	pathgate.image("E")="pathgatee.jpg"
+	Speak $WORLD, "The gate is now closed!"
+
+
+EVENT switch1.onUse
+	gate1.locked = 0
+	gate1.open=1
+	Call gate1.onOpen
+	Display "Hmmm.. the light doesn't turn on. What is this for then?!?"
+
+
+EVENT onTick
+	If mode=0
+		Reset
+	Else
+		If gate1.open
+			gate1.open = 0
+			gate1.locked = 1
+			Call gate1.onClose
+		End_If
+	End_If
+
+
+EVENT bungalowStanza.onLoose
+    If $AGENT = "tele1"
+        ' Teletransporter cannot exit the room
+        Return 0
+    End_If
+
+EVENT pianetaAlieno.onLoose
+    If $AGENT = "tele2"
+        ' Teletransporter cannot exit the room
+        Return 0
+    End_If
+
+
+EVENT onStart
+	mode=1
+
+EVENT w6.onOpen
+	w6.image = "tdopen.gif"
+
+EVENT w6.onClose
+	w6.image = "td.gif"
+
+EVENT map.onLook
+	$AGENT.foundmap=1 ' We can now find treasure
+
+END_SCRIPTS
+
+END_WORLD

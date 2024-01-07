@@ -85,7 +85,7 @@ public class Maint extends HttpServlet {
         World world = null;
         String adminPass = null;
         String serverAdminPass = null;
-        if (cmd != null && !cmd.equals("")) {
+        if ((server != null) && (cmd != null) && !cmd.equals("")) {
             world = (World) context.getAttribute("world"+inst);
             String propFile = utils.getSystemDir(context)+"worldnav"+inst+".properties";
             DictSorted settings = server.loadWorldSettings(""+inst,propFile);
@@ -130,30 +130,36 @@ public class Maint extends HttpServlet {
                             res.append("<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=1 CLASS=text>\n");
                             res.append("<TR><TD ALIGN=RIGHT>id</TD><td>last login</td><TD>date saved</TD><TD>world version</TD><TD>Area</TD></TR>");
                             int i = 0;
+                            int countr=0;
                             java.util.Enumeration keys = p.keys();
                             while (keys.hasMoreElements()) {
                                 String k = (String) keys.nextElement();
-                                int x = k.indexOf("_worldVersion");
-                                if (x>0) {
-                                    String id = k.substring(0, x);
-                                    String ver = p.getProperty(id + "_worldVersion");
-                                    String login = p.getProperty(id + "_login");
-                                    String when = p.getProperty(id + "_when");
-                                    if (seltype.equals("") || 
-                                            (seltype.equals("less") && ver.compareToIgnoreCase(selval) < 0) ||
-                                            (seltype.equals("login_before") && (login == null || login.compareToIgnoreCase(selval) < 0)) ||
-                                            (seltype.equals("before") && when.compareToIgnoreCase(selval) < 0) 
-                                        ) {
-                                        res.append("<TR><TD><INPUT TYPE=checkbox NAME=\"profile_" + i + "\" VALUE=\"" + id + "\"");
-                                        if (!seltype.equals("")) res.append(" CHECKED");
-                                        res.append("> " + id + "</TD><td>"+login+"</td><TD>" + when + "</TD><TD>" + ver + "</TD><TD>" + p.getProperty(id + "_worldId") + "</TD></TR>\n");
-                                        i++;
+                                int x = k.indexOf("_login");
+                                if ((x>0) && (k.length()==(x+6)) ) {
+                                    if (countr<5000) {
+                                        String id = k.substring(0, x);
+                                        String ver = p.getProperty(id + "_worldVersion");
+                                        String login = p.getProperty(id + "_login");
+                                        String when = p.getProperty(id + "_when");
+                                        if (seltype.equals("") || 
+                                                (seltype.equals("less") && (ver.compareToIgnoreCase(selval) < 0)) ||
+                                                (seltype.equals("login_before") && ((login == null) || (login.compareToIgnoreCase(selval) < 0))) ||
+                                                (seltype.equals("before") && (when.compareToIgnoreCase(selval) < 0)) ||
+                                                (seltype.equals("incomp") && ((when == null) || (null == p.getProperty(id + "_properties"))))
+                                            ) {
+                                            res.append("<TR><TD><INPUT TYPE=checkbox NAME=\"profile_" + i + "\" VALUE=\"" + Utils.encodeURL(id) + "\"");
+                                            if (!seltype.equals("")) res.append(" CHECKED");
+                                            res.append("> " + id + "</TD><td>"+login+"</td><TD>" + when + "</TD><TD>" + ver + "</TD><TD>" + p.getProperty(id + "_worldId") + "</TD></TR>\n");
+                                            countr++;
+                                        }
                                     }
+                                    i++;
                                 }
                             }
                             res.append("</TABLE>\n");
                             res.append("<INPUT TYPE=HIDDEN NAME=profilescount VALUE=\"" + i + "\">\n");
-                            res.append("<P>" + i +" profiles found.");
+                            res.append("<P>" + i +" profiles found.<br/>");
+                             res.append("<P>" + countr +" profiles listed.");
                         }
 
 
@@ -171,7 +177,7 @@ public class Maint extends HttpServlet {
                             res.append("No games saved.");
 
                         for (int i=0; i<profilescount; i++) {
-                            String id = utils.getForm("profile_" + i);
+                            String id = utils.decodeURL(utils.getForm("profile_" + i));
                             if (!id.equals("")) {
                                 res.append("<LI>deleted profile of: " + id);
 

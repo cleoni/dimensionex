@@ -12,6 +12,8 @@ import java.util.*;
  *
  * Recent History:
  *
+ * 7.1.6 - 2024-01-07
+ *      fix in maintenance panel to allow cleaning of incomplete profiles
  * 7.1.5 - 2023-05-28
  *      glitch fixed: Needless exception thrown upon RndInt(0), now returns 0
  *      removed support for custom text command processors
@@ -235,7 +237,7 @@ import java.util.*;
  */
 public class multiplayer extends javax.servlet.http.HttpServlet {
     // Shown version
-    public static String myVersion = "7.1.5";
+    public static String myVersion = "7.1.6";
     public String navigatorUrl = "/dimx/servlet/cleoni.adv.multiplayer";
     private DictSorted worlds = null;
     private DictSorted clusters = null;

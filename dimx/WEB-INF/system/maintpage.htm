@@ -1,0 +1,46 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="it">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Maintenance Page - DimensioneX</title>
+</head>
+
+<body>
+
+<form method="POST">
+  <p>Select game or slot: $instances</p>
+  <fieldset><legend>Admin Commands</legend>
+  <label>Admin Password: <input type="password" name="pass" value="$pass" size="20"></label><br>
+  <label><input type="radio" value="setupgame" name="command">Set up this game: <input type="text" name="gameurl" size="20"></label>
+<br><label><input type="radio" value="gpselect" name="command">Select game profiles (SAV only)
+<SELECT NAME="seltype">
+<OPTION VALUE="" SELECTED>all</OPTION>
+<OPTION VALUE="login_before">login before YYYY-MM-DD</OPTION>
+<OPTION VALUE="before">save date before YYYY-MM-DD</OPTION>
+<OPTION VALUE="less">version less than</OPTION>
+<OPTION VALUE="incomp">incomplete</OPTION>
+</SELECT></label>
+<input type="text" value="" name="selval">
+  <br><label><input type="radio" value="serverinit" name="command">Reload Server settings</label>
+  <br><label><input type="radio" value="chkdb" name="command">Check DB Connection / Initialize</label>
+  <br><label><input type="radio" value="sav2db" name="command">Game profiles - store SAV file into DB</label>
+  <br><label><input type="radio" value="db2sav" name="command">Game profiles - export DB --&gt; SAV file</label>
+  </fieldset>
+  <br>
+
+  <fieldset><legend>Quick Commands</legend>
+  <label><input type="radio" value="goadmin" name="command" checked>Go to game's Admin console</label>
+  <br><label><input type="radio" value="gogame" name="command">Go to game</label>
+    </fieldset>
+  <br><input type="submit" value="  Go  " name="go"></p>
+
+</form>
+<hr>
+<p>Command: <b> $command</b></p>
+<p>$results</p>
+
+<p>&nbsp;</p>
+</body>
+
+</html>

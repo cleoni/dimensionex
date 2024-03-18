@@ -12,6 +12,8 @@ import java.util.*;
  *
  * Recent History:
  *
+ * 7.1.7 - 2024-03-17
+ *      Added statsBar event
  * 7.1.6 - 2024-01-07
  *      fix in maintenance panel to allow cleaning of incomplete profiles
  * 7.1.5 - 2023-05-28
@@ -237,7 +239,7 @@ import java.util.*;
  */
 public class multiplayer extends javax.servlet.http.HttpServlet {
     // Shown version
-    public static String myVersion = "7.1.6";
+    public static String myVersion = "7.1.7";
     public String navigatorUrl = "/dimx/servlet/cleoni.adv.multiplayer";
     private DictSorted worlds = null;
     private DictSorted clusters = null;
@@ -2288,23 +2290,51 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
             
             // Icons panel
             sb.append("<TD CLASS=text>\n");
-            //sb.append("<hr style=\"width:100%;color:#fff\" />");
-            sb.append("<img src=\""+ skin.picSpacer);
-            // *navpad
-            int cwidth=Utils.cInt(thisPlayer.getClient().factorx*160);
-            sb.append("\" height=1 width="+cwidth+" ><br/>");
+                //sb.append("<hr style=\"width:100%;color:#fff\" />");
+                sb.append("<img src=\""+ skin.picSpacer);
+                int cwidth=Utils.cInt(thisPlayer.getClient().factorx*160);
+                sb.append("\" height=1 width="+cwidth+" ><br/>");
             
-            Room r = thisPlayer.getRoom();
-            if (r != null) {
-                if (r.hasSeveralFaces()) {
-                    sb.append(htmlNavpadMultiface(world,waysV,skin,thisPlayer.getRoom(),thisPlayer.facing.strVal()));
-                } else {
-                    sb.append(htmlNavpad(world,waysV,skin,thisPlayer.getRoom(),thisPlayer.facing.strVal()));
+            Token eventres = world.fireEvent_t("statsBar",thisPlayer,thisPlayer.id,container.id,new DictSorted(),new Token(),false);
+            String statsBar=eventres.strVal();
+            if (statsBar.length()>0) {
+                
+                if (Utils.isIn("$navpad$",statsBar)) {
+                    Room r = thisPlayer.getRoom();
+                    if (r != null) {
+                        if (r.hasSeveralFaces()) {
+                            statsBar=Utils.stringReplace(statsBar,"$navpad$",htmlNavpadMultiface(world,waysV,skin,thisPlayer.getRoom(),thisPlayer.facing.strVal()),false);
+                        } else {
+                            statsBar=Utils.stringReplace(statsBar,"$navpad$",htmlNavpad(world,waysV,skin,thisPlayer.getRoom(),thisPlayer.facing.strVal()),false);
+                        }
+                    }                    
                 }
+                if (Utils.isIn("$icons$",statsBar)) {
+                    statsBar=Utils.stringReplace(statsBar,"$icons$",htmlIcons(world,im, skin, focus, container, itemsV, peopleV),false);
+                }
+                if (Utils.isIn("$inventory$",statsBar)) {
+                    statsBar=Utils.stringReplace(statsBar,"$inventory$",htmlInventory(world,thisPlayer,skin,focus),false);
+                }         
+                if (Utils.isIn("$properties$",statsBar)) {
+                    statsBar=Utils.stringReplace(statsBar,"$properties$",htmlProperties(thisPlayer),false);
+                }                
+                sb.append(statsBar);
+            } else { // Classic behaviour
+                sb.append("<img src=\""+ skin.picSpacer);
+                // *navpad
+
+                Room r = thisPlayer.getRoom();
+                if (r != null) {
+                    if (r.hasSeveralFaces()) {
+                        sb.append(htmlNavpadMultiface(world,waysV,skin,thisPlayer.getRoom(),thisPlayer.facing.strVal()));
+                    } else {
+                        sb.append(htmlNavpad(world,waysV,skin,thisPlayer.getRoom(),thisPlayer.facing.strVal()));
+                    }
+                }
+                sb.append(htmlIcons(world,im, skin, focus, container, itemsV, peopleV));
+                sb.append(htmlInventory(world,thisPlayer,skin,focus));
+                sb.append(htmlProperties(thisPlayer));
             }
-            sb.append(htmlIcons(world,im, skin, focus, container, itemsV, peopleV));
-            sb.append(htmlInventory(world,thisPlayer,skin,focus));
-            sb.append(htmlProperties(thisPlayer));
             
             sb.append("</TD></TR></TABLE>\n");
             

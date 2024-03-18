@@ -1,0 +1,9 @@
+These XML files are "web application descriptors".
+
+Simply put, they tell your Tomcat web server where to get DimensioneX files and what their URL will be.
+
+Please select the appropriate file for your own web server version and rename it to WEB.XML
+
+The DimensioneX kit comes pre-configured for tomcat 7 - 8
+
+For doubts, go to the DimensioneX website and click on the Support section.

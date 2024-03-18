@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Use this WEB.XML file for running DimensioneX under Tomcat 4.0.6 (used in Sun's NetBeans IDE) -->
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+  <servlet>
+    <servlet-name>Servlet_cleoni.adv.multiplayer</servlet-name>
+    <display-name>Servlet cleoni.adv.multiplayer</display-name>
+    <description>Default configuration created for servlet.</description>
+    <servlet-class>cleoni.adv.multiplayer</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Servlet_cleoni.adv.Maint</servlet-name>
+    <display-name>Servlet cleoni.adv.Maint</display-name>
+    <description>Default configuration created for servlet.</description>
+    <servlet-class>cleoni.adv.Maint</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Servlet_cleoni.adv.multiplayer</servlet-name>
+    <url-pattern>/servlet/multiplayer</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet_cleoni.adv.Maint</servlet-name>
+    <url-pattern>/servlet/cleoni.adv.Maint</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>
+            30
+        </session-timeout>
+  </session-config>
+  <welcome-file-list>
+    <welcome-file>
+            index.jsp
+        </welcome-file>
+    <welcome-file>
+            index.html
+        </welcome-file>
+    <welcome-file>
+            index.htm
+        </welcome-file>
+  </welcome-file-list>
+</web-app>

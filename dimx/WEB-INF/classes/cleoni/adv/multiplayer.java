@@ -12,6 +12,8 @@ import java.util.*;
  *
  * Recent History:
  *
+ * 7.1.8 - 2024-04-08
+ *      Bog fix in navigation controls
  * 7.1.7 - 2024-03-17
  *      Added statsBar event
  * 7.1.6 - 2024-01-07
@@ -239,7 +241,7 @@ import java.util.*;
  */
 public class multiplayer extends javax.servlet.http.HttpServlet {
     // Shown version
-    public static String myVersion = "7.1.7";
+    public static String myVersion = "7.1.8";
     public String navigatorUrl = "/dimx/servlet/cleoni.adv.multiplayer";
     private DictSorted worlds = null;
     private DictSorted clusters = null;
@@ -2320,9 +2322,7 @@ public class multiplayer extends javax.servlet.http.HttpServlet {
                 }                
                 sb.append(statsBar);
             } else { // Classic behaviour
-                sb.append("<img src=\""+ skin.picSpacer);
-                // *navpad
-
+ 
                 Room r = thisPlayer.getRoom();
                 if (r != null) {
                     if (r.hasSeveralFaces()) {
